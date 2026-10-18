@@ -11,6 +11,7 @@ dafür sind die Berechtigungen in `.claude/settings.json` freigegeben. Keine zus
 ## Ablauf
 
 1. **Stand holen:** `git pull --ff-only` (Fehler hier → abbrechen und melden, nichts ändern).
+   Danach `git status -sb`: Steht dort „ahead“ (ein früherer Upload ist gescheitert), zuerst `git push` ausführen.
 
 2. **Was ist neu?** `python tools/karten.py faecher`
    - Steht dort „Nichts Neues.“ → mit einem Satz melden und **sofort aufhören**.
