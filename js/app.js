@@ -410,17 +410,23 @@
   App.route = route;
   App.$app = $app;
 
+  let lastDeckLoad = 0;
+  const DECK_REFRESH_MS = 5 * 60 * 1000;
+
   async function init(reload) {
     App.loadError = null;
-    try { await loadDecks(); } catch (e) { App.loadError = e.message || String(e); }
+    try { await loadDecks(); lastDeckLoad = Date.now(); } catch (e) { App.loadError = e.message || String(e); }
     if (!reload) await loadProgress();
     route();
   }
 
   window.addEventListener('hashchange', route);
-  // Nach längerer Pause (z. B. am nächsten Tag) Zähler aktualisieren
+  // Zurück im Vordergrund (installierte App bleibt oft tagelang offen):
+  // Decks neu laden, damit neue Karten ankommen – aber nie mitten in einer Lernsitzung.
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && ['', 'fach', 'statistik'].includes(currentView())) route();
+    if (document.visibilityState !== 'visible' || ['lernen', 'klausur'].includes(currentView())) return;
+    if (Date.now() - lastDeckLoad > DECK_REFRESH_MS) init(true);
+    else route();
   });
 
   setTheme(getTheme());
