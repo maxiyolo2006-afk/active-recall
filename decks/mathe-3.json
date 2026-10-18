@@ -1,0 +1,618 @@
+{
+  "fach": "mathe-3",
+  "titel": "Mathematik III",
+  "karten": [
+    {
+      "id": "mathe-3-dgl-001",
+      "frage": "Woraus besteht ein Anfangswertproblem erster Ordnung, und was ist seine Lösung?",
+      "antwort": "Aus einer DGL und einem Anfangswert:\n$$y'(t) = f(t, y(t)), \\qquad y(t_0) = y_0$$\nZustand $y(t)$, Änderungsrate $y'(t)$, Modellgesetz $f$, Anfangsinformation $(t_0, y_0)$. Lösung = differenzierbare Funktion, die Gleichung **und** Anfangswert erfüllt.",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 17 (Folie 5)",
+      "tags": ["awp", "grundlagen"]
+    },
+    {
+      "id": "mathe-3-dgl-002",
+      "frage": "Welche drei schnellen Modellchecks prüft man bei einer DGL? Wende sie auf das Abkühlungsgesetz $T' = -k(T - T_U)$, $k > 0$ an.",
+      "antwort": "1. **Dimensionen:** beide Seiten gleiche Einheit\n2. **Vorzeichen:** Dämpfung/Abfluss muss den Bestand senken\n3. **Grenzfälle:** stationäre Zustände plausibel\nAbkühlung: Für $T > T_U$ ist $T' < 0$ (kühlt ab); $T = T_U$ ist das Gleichgewicht.",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 18 (Folie 6)",
+      "tags": ["modellierung", "plausibilitaet"]
+    },
+    {
+      "id": "mathe-3-dgl-003",
+      "frage": "Erkläre die Lösung einer DGL $y' = g(t)\\,h(y)$ durch Trennung der Variablen. Was darf man dabei nicht vergessen?",
+      "antwort": "Für $h(y) \\neq 0$: $$\\frac{1}{h(y)}\\,dy = g(t)\\,dt \\;\\Rightarrow\\; \\int \\frac{1}{h(y)}\\,dy = \\int g(t)\\,dt + C$$\nDanach nach $y$ auflösen und $C$ aus dem Anfangswert bestimmen.\n**Achtung:** Beim Teilen durch $h(y)$ gehen die Gleichgewichtslösungen $y \\equiv y^*$ mit $h(y^*) = 0$ verloren – separat angeben.",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 19 (Folie 7)",
+      "tags": ["trennung-der-variablen", "dgl-1-ordnung"]
+    },
+    {
+      "id": "mathe-3-dgl-004",
+      "frage": "Wie löst man eine lineare DGL erster Ordnung $y' + a(t)\\,y = b(t)$ mit dem integrierenden Faktor?",
+      "antwort": "$$\\mu(t) = e^{\\int a(t)\\,dt}$$\nMultiplikation mit $\\mu$ macht die linke Seite zur Produktableitung: $(\\mu y)' = \\mu b$. Integrieren:\n$$y(t) = \\frac{1}{\\mu(t)}\\left(C + \\int \\mu(t)\\,b(t)\\,dt\\right)$$",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 20 (Folie 8)",
+      "tags": ["lineare-dgl", "integrierender-faktor"]
+    },
+    {
+      "id": "mathe-3-dgl-005",
+      "frage": "Wie lautet die Lösung von $y' + a\\,y = b$ (konstant, $a > 0$) mit $y(0) = y_0$, und was bedeuten $b/a$ und $1/a$?",
+      "antwort": "$$y(t) = \\frac{b}{a} + \\left(y_0 - \\frac{b}{a}\\right)e^{-at}$$\n- $b/a$: **stationärer Wert** (Endwert für $t \\to \\infty$)\n- $1/a$: **Zeitkonstante** des exponentiellen Einschwingens",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 20 (Folie 8)",
+      "tags": ["lineare-dgl", "zeitkonstante"]
+    },
+    {
+      "id": "mathe-3-dgl-006",
+      "frage": "Wie führt man eine Bernoulli-DGL $y' + a(t)\\,y = b(t)\\,y^n$ ($n \\neq 0, 1$) auf eine lineare DGL zurück?",
+      "antwort": "Substitution $z = y^{1-n}$ liefert die lineare DGL\n$$z' + (1-n)\\,a(t)\\,z = (1-n)\\,b(t)$$\nSchema: Struktur erkennen → substituieren → lineare DGL für $z$ lösen → rücksubstituieren → Definitionsbereich prüfen (auch $y \\equiv 0$ beachten).",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 21 (Folie 9)",
+      "tags": ["bernoulli", "substitution"]
+    },
+    {
+      "id": "mathe-3-dgl-007",
+      "frage": "Unter welcher Bedingung besitzt das AWP $y' = f(t, y)$, $y(t_0) = y_0$ lokal genau eine Lösung?",
+      "antwort": "Wenn $f$ in einer Umgebung von $(t_0, y_0)$ **stetig** und bezüglich $y$ **lokal Lipschitz-stetig** ist (z. B. wenn $\\partial f/\\partial y$ dort beschränkt ist).\nZur Lösung gehören auch Anfangsbedingung und maximaler Definitionsbereich; eine gefundene Formel wird durch Einsetzen geprüft.",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 22 (Folie 10)",
+      "tags": ["existenz", "eindeutigkeit", "lipschitz"]
+    },
+    {
+      "id": "mathe-3-dgl-008",
+      "frage": "Beschreibe das fachgerechte Vorgehen beim analytischen Lösen einer DGL-Aufgabe – von der Analyse bis zur Kontrolle.",
+      "antwort": "1. DGL-**Typ und Ordnung** erkennen\n2. Passendes Lösungsverfahren auswählen (Voraussetzungen prüfen)\n3. Allgemeine Lösung bestimmen, Konstanten aus Anfangs-/Randdaten bestimmen\n4. **Prüfen:** Einsetzen in DGL und Bedingungen, Einheiten, Vorzeichen, Grenzverhalten, Gültigkeitsbereich",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 34 (Folie 22); Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgaben 1.2–1.7",
+      "tags": ["vorgehen", "kontrolle"]
+    },
+    {
+      "id": "mathe-3-dgl-009",
+      "frage": "Wie liest man bei einer autonomen DGL $y' = f(y)$ das qualitative Verhalten ab? Erkläre es am logistischen Wachstum $y' = r\\,y\\left(1 - \\frac{y}{K}\\right)$.",
+      "antwort": "Nullstellen von $f$ = **Gleichgewichte**; das Vorzeichen von $f$ zeigt die Bewegungsrichtung.\nLogistisch: $y = 0$ instabil, $y = K$ asymptotisch stabil. Für $0 < y < K$ wächst $y$, für $y > K$ fällt es gegen $K$ – ohne die DGL explizit zu lösen.",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 30 (Folie 18)",
+      "tags": ["autonom", "gleichgewicht", "logistisch"]
+    },
+    {
+      "id": "mathe-3-dgl-010",
+      "frage": "Wie lautet die Lösung der logistischen Gleichung $y' = r\\,y\\left(1 - \\frac{y}{K}\\right)$ mit $y(0) = y_0$, und wo ist die Wachstumsrate maximal?",
+      "antwort": "Trennung der Variablen + Partialbruchzerlegung $\\left(\\frac{1}{y} + \\frac{1}{K - y}\\right)dy = r\\,dt$ liefert\n$$y(t) = \\frac{K}{1 + \\left(\\frac{K}{y_0} - 1\\right)e^{-rt}}$$\nWendepunkt bei $y = K/2$: dort ist die Wachstumsrate maximal.",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 31 (Folie 19)",
+      "tags": ["logistisch", "trennung-der-variablen"]
+    },
+    {
+      "id": "mathe-3-dgl-011",
+      "frage": "Ein Bauteil mit $T(0) = 90\\,^\\circ\\text{C}$ kühlt bei $T_U = 20\\,^\\circ\\text{C}$ ab, die Änderungsrate ist proportional zur Temperaturdifferenz. Nach 10 min gilt $T = 55\\,^\\circ\\text{C}$. Stelle das AWP auf, löse es und bestimme $k$.",
+      "antwort": "1. AWP: $T' = -k\\,(T - 20)$, $T(0) = 90$\n2. Lösung: $T(t) = 20 + 70\\,e^{-kt}$\n3. $55 = 20 + 70\\,e^{-10k} \\Rightarrow e^{-10k} = \\frac{1}{2}$\n4. $k = \\frac{\\ln 2}{10\\,\\text{min}} \\approx 0{,}0693\\,\\text{min}^{-1}$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.1",
+      "tags": ["awp", "abkuehlung"]
+    },
+    {
+      "id": "mathe-3-dgl-012",
+      "frage": "Löse $y' = 0{,}4\\,y\\,(1 - y/100)$, $y(0) = 20$. Wann wird $y = 80$ erreicht, und wie verhält sich $y$ langfristig?",
+      "antwort": "1. Logistisch mit $r = 0{,}4$, $K = 100$: $y(t) = \\frac{100}{1 + 4\\,e^{-0{,}4t}}$\n2. $y = 80$: $1 + 4e^{-0{,}4t} = 1{,}25 \\Rightarrow e^{-0{,}4t} = \\frac{1}{16}$\n3. $t = \\frac{\\ln 16}{0{,}4} \\approx 6{,}93$\n4. Langfristig $y \\to 100$ (Sättigung bei $K$)",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.8",
+      "tags": ["logistisch", "awp"]
+    },
+    {
+      "id": "mathe-3-dgl-013",
+      "frage": "Ein Behälter enthält 100 l Lösung mit anfangs 2 kg Salz. Pro Minute fließen 5 l mit 0,03 kg/l zu und 5 l gut gemischte Lösung ab. Bestimme $m(t)$ und den Grenzwert.",
+      "antwort": "1. Bilanz: $m' = \\underbrace{5 \\cdot 0{,}03}_{\\text{Zufluss}} - \\underbrace{5 \\cdot \\frac{m}{100}}_{\\text{Abfluss}} = 0{,}15 - 0{,}05\\,m$\n2. Stationärer Wert $b/a = 0{,}15/0{,}05 = 3$\n3. $m(t) = 3 - e^{-t/20}$ (in kg, $t$ in min), Probe: $m(0) = 2$\n4. Grenzwert: $3\\,\\text{kg}$ (= 100 l · 0,03 kg/l)",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.9",
+      "tags": ["lineare-dgl", "mischungsproblem"]
+    },
+    {
+      "id": "mathe-3-dgl-014",
+      "frage": "Bestimme die Lösungen von $y' = \\tan x \\cdot y + \\sin x$ auf $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$.",
+      "antwort": "1. Linear: $y' - \\tan x \\cdot y = \\sin x$\n2. $\\mu = e^{-\\int \\tan x\\,dx} = e^{\\ln \\cos x} = \\cos x$\n3. $(y\\cos x)' = \\sin x \\cos x \\Rightarrow y\\cos x = \\frac{1}{2}\\sin^2 x + C$\n4. $y(x) = \\dfrac{\\frac{1}{2}\\sin^2 x + C}{\\cos x}$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.10",
+      "tags": ["lineare-dgl", "integrierender-faktor"]
+    },
+    {
+      "id": "mathe-3-dgl-015",
+      "frage": "Berechne die Lösungen von $y' - \\frac{3}{x}\\,y = -2x$.",
+      "antwort": "1. $\\mu = e^{-\\int 3/x\\,dx} = x^{-3}$\n2. $(x^{-3}y)' = -2x \\cdot x^{-3} = -2x^{-2}$\n3. $x^{-3}y = \\frac{2}{x} + C$\n4. $y = 2x^2 + C\\,x^3$ (auf $x > 0$ bzw. $x < 0$)\nProbe: $y' - \\frac{3}{x}y = 4x + 3Cx^2 - 6x - 3Cx^2 = -2x$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.11",
+      "tags": ["lineare-dgl", "integrierender-faktor"]
+    },
+    {
+      "id": "mathe-3-dgl-016",
+      "frage": "Löse das AWP $y' + 2xy - 5x = 0$, $y(0) = 0$.",
+      "antwort": "1. Linear: $y' + 2x\\,y = 5x$, $\\mu = e^{x^2}$\n2. $(e^{x^2}y)' = 5x\\,e^{x^2} \\Rightarrow e^{x^2}y = \\frac{5}{2}e^{x^2} + C$\n3. $y = \\frac{5}{2} + C\\,e^{-x^2}$, $y(0) = 0 \\Rightarrow C = -\\frac{5}{2}$\n4. $y(x) = \\frac{5}{2}\\left(1 - e^{-x^2}\\right)$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.12",
+      "tags": ["lineare-dgl", "awp"]
+    },
+    {
+      "id": "mathe-3-dgl-017",
+      "frage": "Löse $y' + \\frac{2x}{1 + x^2}\\,y = 0$ einmal als homogene lineare DGL und einmal durch Trennung der Variablen. Welche Lösung erfüllt $y(0) = 1$?",
+      "antwort": "- Linear homogen: $y = C\\,e^{-\\int \\frac{2x}{1+x^2}dx} = C\\,e^{-\\ln(1+x^2)} = \\frac{C}{1+x^2}$\n- Getrennt: $\\frac{dy}{y} = -\\frac{2x}{1+x^2}dx \\Rightarrow \\ln|y| = -\\ln(1+x^2) + c$ → dasselbe; $y \\equiv 0$ ist in $C = 0$ enthalten.\n- $y(0) = 1$: $y(x) = \\frac{1}{1 + x^2}$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.13",
+      "tags": ["lineare-dgl", "trennung-der-variablen"]
+    },
+    {
+      "id": "mathe-3-dgl-018",
+      "frage": "Löse das AWP $y' = \\frac{\\cos x}{y - 1}$, $y(0) = \\frac{1}{2}$, und berechne $y\\left(\\frac{\\pi}{2}\\right)$.",
+      "antwort": "1. Trennen: $(y - 1)\\,dy = \\cos x\\,dx \\Rightarrow \\frac{1}{2}(y-1)^2 = \\sin x + C$\n2. $y(0) = \\frac{1}{2}$: $\\frac{1}{8} = C \\Rightarrow (y-1)^2 = 2\\sin x + \\frac{1}{4}$\n3. Wegen $y(0) - 1 < 0$ negativer Zweig: $y = 1 - \\sqrt{2\\sin x + \\frac{1}{4}}$\n4. $y\\left(\\frac{\\pi}{2}\\right) = 1 - \\sqrt{2{,}25} = -\\frac{1}{2}$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.20",
+      "tags": ["trennung-der-variablen", "awp"]
+    },
+    {
+      "id": "mathe-3-dgl-019",
+      "frage": "Löse $y' = \\frac{3x^2 + 4x + 2}{2(y - 1)}$, $y(0) = -1$. Woran erkennt man den richtigen Wurzelzweig?",
+      "antwort": "1. Trennen: $2(y - 1)\\,dy = (3x^2 + 4x + 2)\\,dx \\Rightarrow (y-1)^2 = x^3 + 2x^2 + 2x + C$\n2. $y(0) = -1$: $(-2)^2 = C = 4$\n3. Zweig über das Vorzeichen von $y(0) - 1 = -2 < 0$:\n$$y(x) = 1 - \\sqrt{x^3 + 2x^2 + 2x + 4}$$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.22",
+      "tags": ["trennung-der-variablen", "awp"]
+    },
+    {
+      "id": "mathe-3-dgl-020",
+      "frage": "Löse $y' = \\frac{1 + y^2}{1 + x^2}$, $y(0) = 1$, zeige $y = \\frac{1+x}{1-x}$ und bestimme das maximale Lösungsintervall.",
+      "antwort": "1. Trennen: $\\arctan y = \\arctan x + C$, $y(0) = 1 \\Rightarrow C = \\frac{\\pi}{4}$\n2. $y = \\tan\\left(\\arctan x + \\frac{\\pi}{4}\\right) = \\frac{x + 1}{1 - x \\cdot 1}$ (Additionstheorem, $\\tan\\frac{\\pi}{4} = 1$)\n3. Gültig, solange $\\arctan x + \\frac{\\pi}{4} < \\frac{\\pi}{2}$, also $x < 1$ → maximales Intervall $(-\\infty, 1)$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.23",
+      "tags": ["trennung-der-variablen", "loesungsintervall"]
+    },
+    {
+      "id": "mathe-3-dgl-021",
+      "frage": "Warum ist die Lösung des AWP $y' = 3\\sqrt[3]{y^2}$, $y(2) = 0$ nicht eindeutig? Nenne mehrere Lösungen.",
+      "antwort": "$f(y) = 3y^{2/3}$ ist stetig, aber $\\partial f/\\partial y = 2y^{-1/3}$ ist bei $y = 0$ unbeschränkt → **nicht Lipschitz-stetig**, der Eindeutigkeitssatz greift nicht.\nLösungen: $y \\equiv 0$, $\\;y = (x - 2)^3$ sowie zusammengesetzte: $(x-a)^3$ für $x < a$, $0$ auf $[a, b]$, $(x-b)^3$ für $x > b$ mit $a \\le 2 \\le b$.",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.26",
+      "tags": ["eindeutigkeit", "lipschitz"]
+    },
+    {
+      "id": "mathe-3-dgl-022",
+      "frage": "Löse die Bernoulli-DGL $(1 + x^2)\\,y' + y^2 = y$. Welche Lösung erfüllt $y(0) = 1$?",
+      "antwort": "1. Form: $y' - \\frac{y}{1+x^2} = -\\frac{y^2}{1+x^2}$, $n = 2$ → $z = y^{-1}$\n2. $z' + \\frac{z}{1+x^2} = \\frac{1}{1+x^2}$, $\\mu = e^{\\arctan x}$\n3. $z = 1 + C\\,e^{-\\arctan x} \\Rightarrow y = \\frac{1}{1 + C\\,e^{-\\arctan x}}$, außerdem $y \\equiv 0$\n4. $y(0) = 1 \\Rightarrow C = 0$: $y \\equiv 1$ (Gleichgewichtslösung)",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.27",
+      "tags": ["bernoulli", "substitution"]
+    },
+    {
+      "id": "mathe-3-dgl-023",
+      "frage": "Löse $(x^2 - 1)\\,y' + 2x\\,y^2 = 0$ auf Intervallen ohne $x = \\pm 1$. Denke an konstante Lösungen.",
+      "antwort": "1. Konstante Lösung: $y \\equiv 0$\n2. Für $y \\neq 0$ trennen: $\\frac{dy}{y^2} = -\\frac{2x}{x^2 - 1}\\,dx$\n3. $-\\frac{1}{y} = -\\ln|x^2 - 1| + c$\n4. $y = \\dfrac{1}{\\ln|x^2 - 1| + C}$ (dort, wo der Nenner $\\neq 0$)",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.25",
+      "tags": ["trennung-der-variablen", "gleichgewicht"]
+    },
+    {
+      "id": "mathe-3-dgl-024",
+      "frage": "Löse $y' = -2y$, $y(0) = 3$. Wogegen strebt $y$, und wann ist der Anfangswert halbiert?",
+      "antwort": "1. $y(t) = 3\\,e^{-2t}$ (Probe: $y' = -6e^{-2t} = -2y$, $y(0) = 3$)\n2. $\\lim_{t\\to\\infty} y(t) = 0$\n3. $e^{-2t} = \\frac{1}{2} \\Rightarrow t = \\frac{\\ln 2}{2} \\approx 0{,}347$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 11, Aufgabe B.1.1",
+      "tags": ["awp", "exponentiell"]
+    },
+    {
+      "id": "mathe-3-dgl-025",
+      "frage": "Löse $y' + y = t$, $y(0) = 2$, mit dem integrierenden Faktor $e^t$ und bestimme $\\lim_{t\\to\\infty}\\bigl(y(t) - (t - 1)\\bigr)$.",
+      "antwort": "1. $(e^t y)' = t\\,e^t$\n2. $e^t y = (t - 1)\\,e^t + C \\Rightarrow y = t - 1 + C\\,e^{-t}$\n3. $y(0) = 2 \\Rightarrow C = 3$: $\\;y = t - 1 + 3e^{-t}$\n4. $y - (t - 1) = 3e^{-t} \\to 0$: die Lösung nähert sich der Geraden $t - 1$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 11, Aufgabe B.1.2",
+      "tags": ["lineare-dgl", "integrierender-faktor"]
+    },
+    {
+      "id": "mathe-3-hoehere-001",
+      "frage": "Wie findet man die Lösungen einer homogenen linearen DGL $a_n y^{(n)} + \\dots + a_1 y' + a_0 y = 0$ mit konstanten Koeffizienten? Welche Bausteine gehören zu welchen Nullstellen?",
+      "antwort": "Ansatz $y = e^{\\lambda t}$ → charakteristisches Polynom $p(\\lambda) = a_n\\lambda^n + \\dots + a_1\\lambda + a_0$.\n- reelle einfache Nullstelle $\\lambda$: $e^{\\lambda t}$\n- reelle $m$-fache Nullstelle: $t^k e^{\\lambda t}$, $k = 0, \\dots, m-1$\n- Paar $\\alpha \\pm i\\beta$: $e^{\\alpha t}\\cos\\beta t$, $e^{\\alpha t}\\sin\\beta t$",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 23 (Folie 11)",
+      "tags": ["charakteristisches-polynom", "dgl-hoeherer-ordnung"]
+    },
+    {
+      "id": "mathe-3-hoehere-002",
+      "frage": "Wie ist die Lösung der erzwungenen Schwingung $m y'' + d y' + k y = F(t)$ aufgebaut, und welcher Ansatz gilt für $F(t) = F_0\\cos(\\omega t)$?",
+      "antwort": "$y = y_h + y_p$\n- $y_h$: Lösung der homogenen Gleichung\n- $y_p$: zur rechten Seite passender Ansatz, hier $y_p = A\\cos(\\omega t) + B\\sin(\\omega t)$; bei **Resonanz** den Ansatz mit $t$ multiplizieren\n- Anfangsbedingungen bestimmen die Konstanten der **Gesamt**lösung",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 24 (Folie 12)",
+      "tags": ["erzwungene-schwingung", "partikulaere-loesung"]
+    },
+    {
+      "id": "mathe-3-hoehere-003",
+      "frage": "Vergleiche die drei Dämpfungsfälle von $m y'' + d y' + k y = 0$. Was entscheidet sie, und wie sieht der Zeitverlauf aus?",
+      "antwort": "Entscheidend ist $\\Delta = d^2 - 4mk$:\n- $\\Delta > 0$: zwei reelle negative Eigenwerte → **aperiodisch** (überkritisch), langsames Kriechen\n- $\\Delta = 0$: doppelte Nullstelle → **kritische Dämpfung**, schnellste Rückkehr ohne Überschwingen\n- $\\Delta < 0$: komplexes Paar → **gedämpfte Schwingung** (unterkritisch), überschwingt\nRealteil = Abklingen, Imaginärteil = Kreisfrequenz.",
+      "typ": "vergleich",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 25–26 (Folien 13–14)",
+      "tags": ["daempfung", "schwingung"]
+    },
+    {
+      "id": "mathe-3-hoehere-004",
+      "frage": "Löse $y'' + 2y' + 5y = 0$, $y(0) = 1$, $y'(0) = 0$, und klassifiziere den Dämpfungsfall.",
+      "antwort": "1. $\\lambda^2 + 2\\lambda + 5 = 0 \\Rightarrow \\lambda = -1 \\pm 2i$\n2. $y = e^{-t}\\left(A\\cos 2t + B\\sin 2t\\right)$\n3. $y(0) = A = 1$; $\\;y'(0) = -A + 2B = 0 \\Rightarrow B = \\frac{1}{2}$\n4. $y(t) = e^{-t}\\left(\\cos 2t + \\frac{1}{2}\\sin 2t\\right)$\n$\\Delta = 4 - 20 < 0$ → gedämpfte Schwingung (unterkritisch)",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.32",
+      "tags": ["charakteristisches-polynom", "daempfung"]
+    },
+    {
+      "id": "mathe-3-hoehere-005",
+      "frage": "Löse $y'' + 3y' + 2y = 0$, $y(0) = 1$, $y'(0) = 0$. Gib charakteristisches Polynom und Nullstellen an.",
+      "antwort": "1. $p(\\lambda) = \\lambda^2 + 3\\lambda + 2 = (\\lambda + 1)(\\lambda + 2)$, Nullstellen $-1$, $-2$\n2. $y = C_1 e^{-t} + C_2 e^{-2t}$\n3. $C_1 + C_2 = 1$, $\\;-C_1 - 2C_2 = 0 \\Rightarrow C_1 = 2$, $C_2 = -1$\n4. $y(t) = 2e^{-t} - e^{-2t}$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 12, Aufgabe B.1.3",
+      "tags": ["charakteristisches-polynom", "dgl-hoeherer-ordnung"]
+    },
+    {
+      "id": "mathe-3-systeme-001",
+      "frage": "Wie lautet die Lösung des linearen Systems $\\vec{y}\\,' = A\\vec{y}$, $\\vec{y}(t_0) = \\vec{y}_0$, und wie rechnet man sie praktisch aus?",
+      "antwort": "$$\\vec{y}(t) = e^{A(t - t_0)}\\,\\vec{y}_0$$\nIst $A = V\\Lambda V^{-1}$ diagonalisierbar: $e^{At} = V e^{\\Lambda t} V^{-1}$.\nPraktisch: Eigenwerte und Eigenvektoren bestimmen → Moden $e^{\\lambda_i t}\\vec{v}_i$ aufstellen → Anfangswerte einsetzen.",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 27 (Folie 15)",
+      "tags": ["dgl-system", "eigenwerte", "matrixexponential"]
+    },
+    {
+      "id": "mathe-3-systeme-002",
+      "frage": "Löse $\\vec{y}\\,' = \\begin{pmatrix} -1 & 1 \\\\ 0 & -2 \\end{pmatrix}\\vec{y}$, $\\vec{y}(0) = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$, und prüfe das Ergebnis.",
+      "antwort": "1. Zweite Zeile entkoppelt: $y_2' = -2y_2 \\Rightarrow y_2 = 2e^{-2t}$\n2. Erste Zeile: $y_1' + y_1 = 2e^{-2t} \\Rightarrow y_1 = 3e^{-t} - 2e^{-2t}$\n3. Probe: $y_1(0) = 1$, $y_2(0) = 2$; $y_1' = -3e^{-t} + 4e^{-2t} = -y_1 + y_2$; beide $\\to 0$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 1.39; Skript Mathematik III - Kapitel 1 und 2.pdf, S. 28",
+      "tags": ["dgl-system", "entkopplung"]
+    },
+    {
+      "id": "mathe-3-systeme-003",
+      "frage": "Entkopple das System $x' = x + y$, $y' = x + y$ mit $x(0) = 1$, $y(0) = 0$ über $u = x + y$ und $v = x - y$ und löse es.",
+      "antwort": "1. Matrixform: $\\vec{z}\\,' = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}\\vec{z}$\n2. $u' = 2u$, $u(0) = 1 \\Rightarrow u = e^{2t}$; $\\;v' = 0$, $v(0) = 1 \\Rightarrow v = 1$\n3. $x = \\frac{u + v}{2} = \\frac{e^{2t} + 1}{2}$, $\\;y = \\frac{u - v}{2} = \\frac{e^{2t} - 1}{2}$",
+      "typ": "rechnung",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 12, Aufgabe B.1.4",
+      "tags": ["dgl-system", "entkopplung"]
+    },
+    {
+      "id": "mathe-3-systeme-004",
+      "frage": "Was bewirkt ein Jordanblock $J = \\lambda I + N$ ($N^m = 0$) in $e^{Jt}$, und welchem Fall bei skalaren DGL entspricht das?",
+      "antwort": "$$e^{Jt} = e^{\\lambda t}\\left(I + tN + \\frac{t^2}{2!}N^2 + \\dots + \\frac{t^{m-1}}{(m-1)!}N^{m-1}\\right)$$\nEs entstehen **Polynomfaktoren in $t$** – das Systemanalogon zu mehrfachen Nullstellen des charakteristischen Polynoms ($t^k e^{\\lambda t}$).",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 29 (Folie 17)",
+      "tags": ["dgl-system", "jordan"]
+    },
+    {
+      "id": "mathe-3-systeme-005",
+      "frage": "Wie lautet die Duhamel-Formel für $\\vec{y}\\,' = A\\vec{y} + \\vec{g}(t)$, und was bedeuten ihre beiden Terme?",
+      "antwort": "Variation der Konstanten ($\\vec{y} = e^{At}\\vec{c}(t)$) liefert\n$$\\vec{y}(t) = e^{A(t - t_0)}\\vec{y}_0 + \\int_{t_0}^{t} e^{A(t - \\tau)}\\,\\vec{g}(\\tau)\\,d\\tau$$\n1. Term: **freie Antwort** auf den Anfangszustand\n2. Integral: Überlagerung aller vergangenen Anregungsanteile (Faltungsstruktur)",
+      "typ": "definition",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 32 (Folie 20)",
+      "tags": ["dgl-system", "variation-der-konstanten"]
+    },
+    {
+      "id": "mathe-3-systeme-006",
+      "frage": "Wie sieht die Phasenebene eines linearen 2×2-Systems mit komplexen Eigenwerten mit negativem Realteil aus?",
+      "antwort": "**Stabiler Fokus (Strudel):** Die Bahnen spiralen in den Ursprung. Der Imaginärteil erzeugt die Rotation, der negative Realteil die Einwärtsbewegung.",
+      "typ": "verstaendnis",
+      "kapitel": "1 Analytische Lösung gewöhnlicher DGL",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 33 (Folie 21)",
+      "tags": ["phasenebene", "stabilitaet"]
+    },
+    {
+      "id": "mathe-3-taylor-001",
+      "frage": "Wie lautet das Taylorpolynom $n$-ten Grades von $f$ um $x_0$, und wie das Lagrange-Restglied?",
+      "antwort": "$$T_n(x) = \\sum_{k=0}^{n} \\frac{f^{(k)}(x_0)}{k!}(x - x_0)^k$$\n$T_n$ stimmt in $x_0$ mit $f$ und den ersten $n$ Ableitungen überein.\n$$R_{n+1}(x) = \\frac{f^{(n+1)}(\\xi)}{(n+1)!}(x - x_0)^{n+1}, \\quad \\xi \\text{ zwischen } x_0 \\text{ und } x$$",
+      "typ": "definition",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 37 und 47 (Folien 25, 35)",
+      "tags": ["taylor", "restglied"]
+    },
+    {
+      "id": "mathe-3-taylor-002",
+      "frage": "Berechne $e^{0{,}5}$ mit dem Taylorpolynom 3. Grades um $x_0 = 0$ und gib eine garantierte Fehlerschranke an.",
+      "antwort": "1. $T_3(0{,}5) = 1 + 0{,}5 + \\frac{0{,}25}{2} + \\frac{0{,}125}{6} = 1{,}645833$\n2. $|R_4(0{,}5)| = \\frac{e^{\\xi}}{24}(0{,}5)^4 \\le \\frac{e^{0{,}5}}{24}\\cdot 0{,}0625 < 0{,}0043$ (da $e^\\xi \\le e^{0{,}5}$)\n3. Tatsächlich $e^{0{,}5} \\approx 1{,}648721$ – Schranke konservativ, aber garantiert.",
+      "typ": "rechnung",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 38 (Folie 26)",
+      "tags": ["taylor", "restglied", "fehlerschranke"]
+    },
+    {
+      "id": "mathe-3-taylor-003",
+      "frage": "Wie lauten die Taylorreihen von $\\sin x$, $\\cos x$ und $\\ln(1 + x)$ um 0, und wie schätzt man bei alternierenden Reihen den Fehler ab?",
+      "antwort": "$$\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\dots \\qquad \\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\dots$$\n$$\\ln(1 + x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\frac{x^4}{4} + \\dots \\quad (|x| < 1)$$\nAlternierend: Fehler $\\le$ Betrag des ersten weggelassenen Terms.",
+      "typ": "definition",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 49 (Folie 37)",
+      "tags": ["taylor", "reihen"]
+    },
+    {
+      "id": "mathe-3-taylor-004",
+      "frage": "Berechne das 3. Taylorpolynom von $f(x) = \\sqrt{1 + x^2}$ um $x_0 = 0$.",
+      "antwort": "1. Mit $u = x^2$: $\\sqrt{1 + u} = 1 + \\frac{u}{2} - \\frac{u^2}{8} + \\dots$\n2. $\\sqrt{1 + x^2} = 1 + \\frac{x^2}{2} - \\frac{x^4}{8} + \\dots$\n3. $T_3(x) = 1 + \\frac{x^2}{2}$ (die Terme $x^1$ und $x^3$ fehlen, weil $f$ gerade ist)",
+      "typ": "rechnung",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 2.1",
+      "tags": ["taylor"]
+    },
+    {
+      "id": "mathe-3-taylor-005",
+      "frage": "Gib das $n$-te Taylorpolynom von $f(x) = \\ln x$ um $x_0 = 1$ an.",
+      "antwort": "1. $f^{(k)}(x) = (-1)^{k+1}\\frac{(k-1)!}{x^k}$ für $k \\ge 1$, $f(1) = 0$\n2. $\\frac{f^{(k)}(1)}{k!} = \\frac{(-1)^{k+1}}{k}$\n$$T_n(x) = \\sum_{k=1}^{n} \\frac{(-1)^{k+1}}{k}(x - 1)^k = (x-1) - \\frac{(x-1)^2}{2} + \\frac{(x-1)^3}{3} - \\dots$$",
+      "typ": "rechnung",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 2.3",
+      "tags": ["taylor", "logarithmus"]
+    },
+    {
+      "id": "mathe-3-taylor-006",
+      "frage": "Bis zu welchem Grad muss $\\sin x$ um 0 entwickelt werden, damit der Fehler auf $[-1, 1]$ kleiner als $10^{-3}$ ist?",
+      "antwort": "1. Restglied: $|R| \\le \\frac{|x|^{k}}{k!} \\le \\frac{1}{k!}$ ($|\\sin^{(k)}| \\le 1$, $|x| \\le 1$)\n2. Bis $x^3$ (= $T_4$): $|R_5| \\le \\frac{1}{5!} \\approx 8{,}3 \\cdot 10^{-3}$ – zu groß\n3. Bis $x^5$ (= $T_6$): $|R_7| \\le \\frac{1}{7!} \\approx 2 \\cdot 10^{-4} < 10^{-3}$\n→ $\\sin x \\approx x - \\frac{x^3}{6} + \\frac{x^5}{120}$ genügt.",
+      "typ": "rechnung",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 2.6",
+      "tags": ["taylor", "fehlerschranke"]
+    },
+    {
+      "id": "mathe-3-numerik-001",
+      "frage": "Erkläre das Bisektionsverfahren. Wie viele Schritte braucht man für die Genauigkeit $\\varepsilon$?",
+      "antwort": "Voraussetzung: $f$ stetig, $f(a)\\,f(b) < 0$.\n1. $m = \\frac{a + b}{2}$\n2. die Hälfte mit Vorzeichenwechsel behalten\n3. wiederholen bis $\\frac{b - a}{2} \\le \\varepsilon$\nNach $n$ Schritten Intervalllänge $\\frac{b-a}{2^n}$, also genügt $n \\ge \\left\\lceil \\log_2\\frac{b - a}{2\\varepsilon}\\right\\rceil$.",
+      "typ": "definition",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 40 (Folie 28)",
+      "tags": ["bisektion", "nullstellen"]
+    },
+    {
+      "id": "mathe-3-numerik-002",
+      "frage": "Leite das Newton-Verfahren aus der Tangente her. Wie schnell konvergiert es, und wann kann es scheitern?",
+      "antwort": "Linearisierung bei $x_n$: $0 = f(x_{n+1}) \\approx f(x_n) + f'(x_n)(x_{n+1} - x_n)$\n$$x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$$\nNahe einer einfachen Nullstelle **quadratisch** konvergent. Scheitert bei schlechtem Startwert oder $f'(x_n) \\approx 0$.\nBeispiel $f = x^2 - 2$, $x_0 = 1{,}5$: $1{,}4166667 \\to 1{,}4142157 \\to 1{,}4142136$",
+      "typ": "definition",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 41 (Folie 29)",
+      "tags": ["newton", "nullstellen"]
+    },
+    {
+      "id": "mathe-3-numerik-003",
+      "frage": "Vergleiche Bisektion und Newton-Verfahren. Wie sieht eine robuste Praxislösung aus?",
+      "antwort": "- **Bisektion:** garantierte Konvergenz (Intervallgarantie), aber langsam (linear, Halbierung pro Schritt), braucht nur Vorzeichenwechsel\n- **Newton:** lokal quadratisch schnell, braucht Ableitung und guten Startwert, kann divergieren oder pendeln\n- **Hybrid:** einschließendes Intervall halten, Newton-Schritt nur akzeptieren, wenn er darin liegt – sonst Bisektion",
+      "typ": "vergleich",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 42 und 53 (Folien 30, 41)",
+      "tags": ["bisektion", "newton", "nullstellen"]
+    },
+    {
+      "id": "mathe-3-numerik-004",
+      "frage": "Führe für $f(q) = q^3 + q - 3$ auf $[1, 2]$ vier Bisektionsschritte aus und gib eine garantierte Fehlerschranke an.",
+      "antwort": "1. $f(1) = -1 < 0$, $f(2) = 7 > 0$ → Nullstelle in $[1, 2]$\n2. $m = 1{,}5$: $f > 0$ → $[1;\\,1{,}5]$\n3. $m = 1{,}25$: $f \\approx 0{,}20 > 0$ → $[1;\\,1{,}25]$\n4. $m = 1{,}125$: $f \\approx -0{,}45$ → $[1{,}125;\\,1{,}25]$\n5. $m = 1{,}1875$: $f \\approx -0{,}14$ → $[1{,}1875;\\,1{,}25]$\nSchätzwert $1{,}21875$, Fehler $\\le 0{,}03125$ (wahre Nullstelle $\\approx 1{,}2134$)",
+      "typ": "rechnung",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 2.9",
+      "tags": ["bisektion", "nullstellen"]
+    },
+    {
+      "id": "mathe-3-numerik-005",
+      "frage": "Wende das Newton-Verfahren auf $f(x) = x^3 - 2x + 2$ mit $x_0 = 0$ an. Was passiert, und wie geht man robuster vor?",
+      "antwort": "1. $f'(x) = 3x^2 - 2$: $x_1 = 0 - \\frac{2}{-2} = 1$, $\\;x_2 = 1 - \\frac{1}{1} = 0$, $\\;x_3 = 1$, $x_4 = 0$ …\n2. Das Verfahren **pendelt** zwischen 0 und 1 und konvergiert nie.\n3. Vorzeichen: $f(-2) = -2 < 0$, $f(-1) = 3 > 0$ → Nullstelle in $[-2, -1]$ ($\\approx -1{,}77$).\nRobuster: Bisektion bzw. Hybrid auf $[-2, -1]$ oder Newton mit Startwert darin.",
+      "typ": "verstaendnis",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 2.10",
+      "tags": ["newton", "konvergenz"]
+    },
+    {
+      "id": "mathe-3-numerik-006",
+      "frage": "Vergleiche Vorwärtsdifferenz und zentrale Differenz zur Näherung von $f'(x)$: Formeln, Fehlerordnung, Grenzen.",
+      "antwort": "- **Vorwärts:** $f'(x) \\approx \\frac{f(x+h) - f(x)}{h}$, Fehler $O(h)$ (führender Term $\\frac{h}{2}f''$)\n- **Zentral:** $f'(x) \\approx \\frac{f(x+h) - f(x-h)}{2h}$, Fehler $O(h^2)$ (führender Term $-\\frac{h^2}{6}f'''$) – gerade Ableitungen heben sich weg\nZu kleines $h$: Auslöschung bei der Subtraktion fast gleicher Zahlen → Rundungsfehler wachsen.",
+      "typ": "vergleich",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 43 und 50 (Folien 31, 38)",
+      "tags": ["numerische-differentiation", "fehlerordnung"]
+    },
+    {
+      "id": "mathe-3-numerik-007",
+      "frage": "Entwickle $u(x+h)$ bis zur 2. Ordnung, setze es in $\\frac{u(x+h) - u(x)}{h}$ ein und bestimme führenden Fehlerterm und Konsistenzordnung.",
+      "antwort": "1. $u(x+h) = u(x) + h\\,u'(x) + \\frac{h^2}{2}u''(x) + O(h^3)$\n2. $\\frac{u(x+h) - u(x)}{h} = u'(x) + \\frac{h}{2}u''(x) + O(h^2)$\n3. Führender Fehlerterm $\\frac{h}{2}u''(x)$ → Konsistenzordnung 1",
+      "typ": "rechnung",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 2.11",
+      "tags": ["numerische-differentiation", "fehlerordnung"]
+    },
+    {
+      "id": "mathe-3-numerik-008",
+      "frage": "Wie lautet die zusammengesetzte Trapezregel, und wie groß ist ihr Fehler?",
+      "antwort": "$f$ auf jedem Teilintervall durch die Sekante ersetzen ($h = \\frac{b-a}{n}$):\n$$T_n = h\\left(\\frac{f_0}{2} + \\sum_{i=1}^{n-1} f_i + \\frac{f_n}{2}\\right)$$\nFür $f \\in C^2$: $\\int_a^b f\\,dx - T_n = -\\frac{b-a}{12}\\,h^2 f''(\\xi)$ → Ordnung $O(h^2)$",
+      "typ": "definition",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 44 und 51 (Folien 32, 39)",
+      "tags": ["numerische-integration", "trapezregel"]
+    },
+    {
+      "id": "mathe-3-numerik-009",
+      "frage": "Wie lautet die Simpson-Regel, welche Fehlerordnung hat sie, und warum ist sie genauer als die Trapezregel?",
+      "antwort": "Quadratische Interpolation durch drei Punkte:\n$$\\int_{x_0}^{x_0+2h} f\\,dx \\approx \\frac{h}{3}(f_0 + 4f_1 + f_2)$$\nZusammengesetzt (gerades $n$): $S_n = \\frac{h}{3}\\left(f_0 + 4\\sum_{\\text{ungerade}} f_i + 2\\sum_{\\text{gerade}} f_i + f_n\\right)$\nFehler $-\\frac{b-a}{180}h^4 f^{(4)}(\\xi)$ → $O(h^4)$. Sie integriert sogar **kubische** Polynome exakt.",
+      "typ": "definition",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 45 und 52 (Folien 33, 40)",
+      "tags": ["numerische-integration", "simpson"]
+    },
+    {
+      "id": "mathe-3-numerik-010",
+      "frage": "Berechne $\\int_0^1 x^4\\,dx$ exakt und mit Trapezregel ($n = 2$ und $n = 4$) sowie Simpson ($n = 2$). Vergleiche die Fehler.",
+      "antwort": "1. Exakt: $I = 0{,}2$\n2. $T_2 = 0{,}5\\left(0 + 0{,}0625 + 0{,}5\\right) = 0{,}28125$, Fehler $0{,}08125$\n3. $T_4 = 0{,}25\\left(0{,}0039 + 0{,}0625 + 0{,}3164 + 0{,}5\\right) = 0{,}22070$, Fehler $0{,}02070$\n4. $S_2 = \\frac{0{,}5}{3}(0 + 4 \\cdot 0{,}0625 + 1) = 0{,}20833$, Fehler $0{,}00833$\nHalbes $h$ → Trapezfehler etwa $\\frac{1}{4}$ (Faktor 3,9) → bestätigt $O(h^2)$.",
+      "typ": "rechnung",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Uebungsaufgaben Mathematik III - Kapitel 1 und 2.pdf, Aufgabe 2.12",
+      "tags": ["trapezregel", "simpson", "fehlerordnung"]
+    },
+    {
+      "id": "mathe-3-numerik-011",
+      "frage": "Welche drei Fehlerquellen bilden das Fehlerdreieck numerischer Rechnungen, und warum hilft ein immer kleinerer Zeitschritt nicht unbegrenzt?",
+      "antwort": "**Modellfehler**, **Diskretisierungsfehler**, **Rundungsfehler**.\nEin kleiner Zeitschritt verringert nur den Diskretisierungsfehler, nicht den Modellfehler; extrem kleine Schritte vergrößern sogar die Rundungsfehler.",
+      "typ": "verstaendnis",
+      "kapitel": "2 Taylor und Numerik (Wiederholung Mathe II)",
+      "quelle": "Skript Mathematik III - Kapitel 1 und 2.pdf, S. 46 (Folie 34)",
+      "tags": ["fehler", "numerik"]
+    },
+    {
+      "id": "mathe-3-euler-001",
+      "frage": "Berechne für $y' = -2y$, $y(0) = 1$ mit dem expliziten Euler-Verfahren und $h = 0{,}25$ die Werte $y_1$, $y_2$. Vergleiche mit $y(0{,}5) = e^{-1}$ und wiederhole mit $h = 0{,}125$.",
+      "antwort": "1. $y_{n+1} = y_n + h(-2y_n) = (1 - 2h)\\,y_n$\n2. $h = 0{,}25$: Faktor 0,5 → $y_1 = 0{,}5$, $y_2 = 0{,}25$; Fehler $|0{,}25 - 0{,}3679| \\approx 0{,}118$\n3. $h = 0{,}125$: Faktor 0,75, 4 Schritte → $0{,}75^4 = 0{,}3164$; Fehler $\\approx 0{,}051$\nHalbes $h$ → Fehler etwa halbiert (Euler hat Ordnung 1).",
+      "typ": "rechnung",
+      "kapitel": "3 Numerische Lösung gewöhnlicher DGL",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 13, Aufgabe B.3.1",
+      "tags": ["euler", "numerik", "fehlerordnung"]
+    },
+    {
+      "id": "mathe-3-integral-001",
+      "frage": "Berechne mit partieller Integration $\\int_0^{\\pi/2} t\\cos t\\,dt$ und $\\int_1^{e} t\\ln t\\,dt$. Begründe die Wahl von $u$ und $dv$.",
+      "antwort": "1. $u = t$ (wird beim Ableiten einfacher), $dv = \\cos t\\,dt$: $\\int t\\cos t = t\\sin t + \\cos t$ → $\\left[\\,\\right]_0^{\\pi/2} = \\frac{\\pi}{2} - 1 \\approx 0{,}571$\n2. $u = \\ln t$ (Ableitung $1/t$ vereinfacht), $dv = t\\,dt$: $\\int t\\ln t = \\frac{t^2}{2}\\ln t - \\frac{t^2}{4}$ → $\\left[\\,\\right]_1^{e} = \\frac{e^2}{4} + \\frac{1}{4} = \\frac{e^2 + 1}{4} \\approx 2{,}097$",
+      "typ": "rechnung",
+      "kapitel": "1.1 Integralrechnung (Wiederholung Mathe I)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 4, Aufgabe A.1.4",
+      "tags": ["partielle-integration"]
+    },
+    {
+      "id": "mathe-3-integral-002",
+      "frage": "Zerlege $r(t) = \\frac{3t + 5}{(t+1)(t+2)}$ in Partialbrüche, gib die Stammfunktionen an und berechne $\\int_0^1 r(t)\\,dt$.",
+      "antwort": "1. $\\frac{3t+5}{(t+1)(t+2)} = \\frac{A}{t+1} + \\frac{B}{t+2}$; Zuhaltemethode: $A = \\frac{-3+5}{1} = 2$, $B = \\frac{-6+5}{-1} = 1$\n2. $\\int r\\,dt = 2\\ln|t+1| + \\ln|t+2| + C$\n3. $\\int_0^1 r\\,dt = 2\\ln 2 + \\ln 3 - \\ln 2 = \\ln 6 \\approx 1{,}792$",
+      "typ": "rechnung",
+      "kapitel": "1.1 Integralrechnung (Wiederholung Mathe I)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 4, Aufgabe A.1.5",
+      "tags": ["partialbruchzerlegung"]
+    },
+    {
+      "id": "mathe-3-integral-003",
+      "frage": "Untersuche $\\int_0^\\infty e^{-3t}\\,dt$, $\\int_0^\\infty t\\,e^{-2t}\\,dt$ und $\\int_1^\\infty \\frac{1}{t}\\,dt$ auf Konvergenz.",
+      "antwort": "Obere Grenze durch $R$ ersetzen, dann $R \\to \\infty$:\n1. $\\int_0^R e^{-3t}dt = \\frac{1 - e^{-3R}}{3} \\to \\frac{1}{3}$\n2. $\\int_0^R t e^{-2t}dt = \\frac{1}{4} - \\left(\\frac{R}{2} + \\frac{1}{4}\\right)e^{-2R} \\to \\frac{1}{4}$\n3. $\\int_1^R \\frac{dt}{t} = \\ln R \\to \\infty$ → **divergent**",
+      "typ": "rechnung",
+      "kapitel": "1.1 Integralrechnung (Wiederholung Mathe I)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 5, Aufgabe A.1.6",
+      "tags": ["uneigentliches-integral"]
+    },
+    {
+      "id": "mathe-3-integral-004",
+      "frage": "Berechne $\\int_{-\\pi}^{\\pi}\\sin(2t)\\sin(3t)\\,dt$, $\\int_{-\\pi}^{\\pi}\\cos^2(3t)\\,dt$ und $\\int_{-\\pi}^{\\pi}\\sin^2(2t)\\,dt$. Warum ist das für Fourierreihen wichtig?",
+      "antwort": "1. $\\sin 2t \\sin 3t = \\frac{1}{2}(\\cos t - \\cos 5t)$ → Integral $= 0$\n2. $\\cos^2 3t = \\frac{1}{2}(1 + \\cos 6t)$ → $\\pi$\n3. $\\sin^2 2t = \\frac{1}{2}(1 - \\cos 4t)$ → $\\pi$\n**Orthogonalität:** Verschiedene Frequenzen ergeben 0, gleiche ergeben $\\pi$. Deshalb lässt sich jeder Fourierkoeffizient einzeln „herausfiltern“: $a_n = \\frac{1}{\\pi}\\int f\\cos nt\\,dt$.",
+      "typ": "verstaendnis",
+      "kapitel": "1.1 Integralrechnung (Wiederholung Mathe I)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 5, Aufgabe A.1.8",
+      "tags": ["orthogonalitaet", "fourier"]
+    },
+    {
+      "id": "mathe-3-integral-005",
+      "frage": "Für $f(t) = t^2 - 1$ auf $[-1, 2]$: Vergleiche das orientierte Integral mit dem geometrischen Flächeninhalt.",
+      "antwort": "1. Nullstellen $t = \\pm 1$: $f < 0$ auf $(-1, 1)$, $f > 0$ auf $(1, 2]$\n2. Orientiert: $\\int_{-1}^{2}(t^2 - 1)\\,dt = \\left[\\frac{t^3}{3} - t\\right]_{-1}^{2} = \\frac{2}{3} - \\frac{2}{3} = 0$\n3. Fläche: $\\left|\\int_{-1}^{1}\\right| + \\int_1^2 = \\frac{4}{3} + \\frac{4}{3} = \\frac{8}{3}$\nDas orientierte Integral zählt Flächen unter der Achse negativ – hier heben sie sich genau auf.",
+      "typ": "vergleich",
+      "kapitel": "1.1 Integralrechnung (Wiederholung Mathe I)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 6, Aufgabe A.1.10",
+      "tags": ["bestimmtes-integral", "flaeche"]
+    },
+    {
+      "id": "mathe-3-fourier-001",
+      "frage": "Wie lautet die reelle Fourierreihe einer $2\\pi$-periodischen Funktion, und wie berechnet man die Koeffizienten? Was vereinfacht Symmetrie?",
+      "antwort": "$$f(t) \\sim \\frac{a_0}{2} + \\sum_{n=1}^{\\infty}\\left(a_n\\cos nt + b_n\\sin nt\\right)$$\n$$a_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(t)\\cos nt\\,dt, \\qquad b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(t)\\sin nt\\,dt$$\n$f$ gerade → nur $a_n$; $f$ ungerade → nur $b_n$. An Sprungstellen konvergiert die Reihe gegen den Mittelwert von links- und rechtsseitigem Grenzwert.",
+      "typ": "definition",
+      "kapitel": "6 Fourierreihen (Wiederholung Mathe II)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 7, Aufgaben A.6.1–A.6.2",
+      "tags": ["fourierreihe", "koeffizienten"]
+    },
+    {
+      "id": "mathe-3-fourier-002",
+      "frage": "Bestimme die Fourierreihe von $f(t) = t$ auf $(-\\pi, \\pi)$ ($2\\pi$-periodisch fortgesetzt), die Partialsumme bis $n = 3$ und den Wert bei $t = \\pi$.",
+      "antwort": "1. $f$ ungerade → $a_0 = a_n = 0$\n2. $b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} t\\sin nt\\,dt = \\frac{2(-1)^{n+1}}{n}$\n3. $S_3 = 2\\sin t - \\sin 2t + \\frac{2}{3}\\sin 3t$\n4. Bei $t = \\pi$ (Sprung von $\\pi$ auf $-\\pi$): Reihe $\\to 0$ (Mittelwert)",
+      "typ": "rechnung",
+      "kapitel": "6 Fourierreihen (Wiederholung Mathe II)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 7, Aufgabe A.6.2",
+      "tags": ["fourierreihe", "ungerade"]
+    },
+    {
+      "id": "mathe-3-fourier-003",
+      "frage": "Bestimme die Fourierreihe des $2\\pi$-periodischen Rechtecksignals $f = -2$ auf $(-\\pi, 0)$, $f = 2$ auf $(0, \\pi)$, sowie $S_5$ und die Grenzwerte bei $t = 0$ und $t = \\pi/2$.",
+      "antwort": "1. Ungerade → $a_0 = a_n = 0$; $b_n = \\frac{2}{\\pi}\\int_0^\\pi 2\\sin nt\\,dt = \\frac{4}{n\\pi}\\left(1 - (-1)^n\\right)$\n2. $b_n = \\frac{8}{n\\pi}$ für ungerade $n$, sonst 0\n3. $S_5 = \\frac{8}{\\pi}\\left(\\sin t + \\frac{\\sin 3t}{3} + \\frac{\\sin 5t}{5}\\right)$\n4. $t = 0$: Sprung → Mittelwert 0; $\\;t = \\pi/2$: $f = 2$",
+      "typ": "rechnung",
+      "kapitel": "6 Fourierreihen (Wiederholung Mathe II)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 8, Aufgabe A.6.3",
+      "tags": ["fourierreihe", "rechteck"]
+    },
+    {
+      "id": "mathe-3-fourier-004",
+      "frage": "Bestimme die Fourierreihe von $f(t) = |t|$ auf $[-\\pi, \\pi]$ ($2\\pi$-periodisch), $S_3$ und die Werte bei $t = 0$ und $t = \\pi$.",
+      "antwort": "1. Gerade → $b_n = 0$; $a_0 = \\frac{2}{\\pi}\\int_0^\\pi t\\,dt = \\pi$\n2. $a_n = \\frac{2}{\\pi}\\int_0^\\pi t\\cos nt\\,dt = \\frac{2\\left((-1)^n - 1\\right)}{\\pi n^2}$ → $-\\frac{4}{\\pi n^2}$ für ungerade $n$, sonst 0\n3. $S_3 = \\frac{\\pi}{2} - \\frac{4}{\\pi}\\left(\\cos t + \\frac{\\cos 3t}{9}\\right)$\n4. $f$ ist stetig → Reihe $\\to 0$ bei $t = 0$, $\\to \\pi$ bei $t = \\pi$",
+      "typ": "rechnung",
+      "kapitel": "6 Fourierreihen (Wiederholung Mathe II)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 8, Aufgabe A.6.4",
+      "tags": ["fourierreihe", "gerade"]
+    },
+    {
+      "id": "mathe-3-fourier-005",
+      "frage": "Nutze für $f(t) = t$ auf $(-\\pi, \\pi)$ mit $b_n = \\frac{2(-1)^{n+1}}{n}$ die Parseval-Gleichung, um $\\sum_{n=1}^{\\infty}\\frac{1}{n^2}$ zu bestimmen. Wie groß ist der mittlere quadratische Fehler von $S_3$?",
+      "antwort": "1. $M = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} t^2\\,dt = \\frac{\\pi^2}{3}$, Effektivwert $\\frac{\\pi}{\\sqrt{3}}$\n2. Parseval: $\\frac{\\pi^2}{3} = \\frac{1}{2}\\sum \\frac{4}{n^2} \\Rightarrow \\sum_{n=1}^{\\infty}\\frac{1}{n^2} = \\frac{\\pi^2}{6}$\n3. $E_3 = M - \\frac{1}{2}\\left(b_1^2 + b_2^2 + b_3^2\\right) = \\frac{\\pi^2}{3} - \\frac{1}{2}\\left(4 + 1 + \\frac{4}{9}\\right) \\approx 0{,}568$",
+      "typ": "rechnung",
+      "kapitel": "6 Fourierreihen (Wiederholung Mathe II)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 9, Aufgabe A.6.7",
+      "tags": ["parseval", "fourierreihe"]
+    },
+    {
+      "id": "mathe-3-fourier-006",
+      "frage": "Für $f(t) = 1 + 3\\cos\\left(\\frac{\\pi t}{2}\\right) - 2\\sin(\\pi t)$: Bestimme $T$, $\\omega_0$, die reellen und die komplexen Fourierkoeffizienten $c_n$.",
+      "antwort": "1. Perioden 4 und 2 → $T = 4$, $\\omega_0 = \\frac{2\\pi}{T} = \\frac{\\pi}{2}$\n2. Reell: $\\frac{a_0}{2} = 1$, $a_1 = 3$, $b_2 = -2$\n3. Komplex ($c_n = \\frac{a_n - i b_n}{2}$): $c_0 = 1$, $c_{\\pm 1} = \\frac{3}{2}$, $c_2 = i$, $c_{-2} = -i$\n4. Probe: $c_{-n} = \\overline{c_n}$ ✓ (reelles Signal)",
+      "typ": "rechnung",
+      "kapitel": "6 Fourierreihen (Wiederholung Mathe II)",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 10, Aufgabe A.6.8",
+      "tags": ["komplexe-fourierkoeffizienten", "fourierreihe"]
+    },
+    {
+      "id": "mathe-3-transform-001",
+      "frage": "Berechne die Fourier-Transformierte $F(\\omega) = \\int_{-\\infty}^{\\infty} f(t)\\,e^{-i\\omega t}\\,dt$ des Rechteckimpulses $f(t) = 1$ für $|t| \\le 1$, sonst 0. Ist $F$ reell oder komplex, gerade oder ungerade?",
+      "antwort": "1. $\\omega \\neq 0$: $F(\\omega) = \\int_{-1}^{1} e^{-i\\omega t}\\,dt = \\frac{e^{-i\\omega} - e^{i\\omega}}{-i\\omega} = \\frac{2\\sin\\omega}{\\omega}$\n2. $F(0) = \\int_{-1}^{1} 1\\,dt = 2$ – passt zum Grenzwert $\\lim_{\\omega\\to 0}\\frac{2\\sin\\omega}{\\omega} = 2$\n3. $F$ ist **reell und gerade**, weil $f$ reell und gerade ist.",
+      "typ": "rechnung",
+      "kapitel": "7 Fourier-Transformation",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 14, Aufgabe B.7.1",
+      "tags": ["fourier-transformation", "rechteckimpuls"]
+    },
+    {
+      "id": "mathe-3-laplace-001",
+      "frage": "Berechne $\\mathcal{L}\\{e^{-2t}\\}$ und $\\mathcal{L}\\{t\\}$ samt Konvergenzbereich und transformiere $F(s) = \\frac{2s + 5}{(s+1)(s+2)}$ zurück.",
+      "antwort": "1. $\\mathcal{L}\\{e^{-2t}\\} = \\int_0^\\infty e^{-(s+2)t}dt = \\frac{1}{s + 2}$ für $s > -2$\n2. $\\mathcal{L}\\{t\\} = \\frac{1}{s^2}$ für $s > 0$\n3. Partialbrüche: $\\frac{2s+5}{(s+1)(s+2)} = \\frac{3}{s+1} - \\frac{1}{s+2}$\n4. $f(t) = 3e^{-t} - e^{-2t}$",
+      "typ": "rechnung",
+      "kapitel": "9 Laplace-Transformation",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 15, Aufgabe B.9.1",
+      "tags": ["laplace", "ruecktransformation"]
+    },
+    {
+      "id": "mathe-3-laplace-002",
+      "frage": "Löse $y' + 2y = 2$, $y(0) = 0$ mit der Laplace-Transformation.",
+      "antwort": "1. Transformieren: $sY - y(0) + 2Y = \\frac{2}{s}$\n2. $Y(s) = \\frac{2}{s(s+2)} = \\frac{1}{s} - \\frac{1}{s+2}$\n3. Zurück: $y(t) = 1 - e^{-2t}$\nProbe: $y' + 2y = 2e^{-2t} + 2 - 2e^{-2t} = 2$, $y(0) = 0$",
+      "typ": "rechnung",
+      "kapitel": "9 Laplace-Transformation",
+      "quelle": "mathe_iii-hsbi-ws2026-vorbereitung.pdf, S. 15, Aufgabe B.9.2",
+      "tags": ["laplace", "awp"]
+    }
+  ]
+}

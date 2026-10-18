@@ -23,6 +23,21 @@
       ]
     },
     {
+      "fach": "mathe-3",
+      "titel": "Mathematik III",
+      "datei": "mathe-3.json",
+      "anzahl": 68,
+      "kapitel": [
+        "1 Analytische Lösung gewöhnlicher DGL",
+        "2 Taylor und Numerik (Wiederholung Mathe II)",
+        "3 Numerische Lösung gewöhnlicher DGL",
+        "1.1 Integralrechnung (Wiederholung Mathe I)",
+        "6 Fourierreihen (Wiederholung Mathe II)",
+        "7 Fourier-Transformation",
+        "9 Laplace-Transformation"
+      ]
+    },
+    {
       "fach": "tma",
       "titel": "Technische Mechanik A",
       "datei": "tma.json",
