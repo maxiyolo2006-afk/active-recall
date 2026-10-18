@@ -1,79 +1,50 @@
 # Active Recall – Karteikarten mit Spaced Repetition
 
-Lern-App fürs Studium: Unterlagen in `materialien/<fach>/` ablegen, Claude Code macht daraus Karteikarten,
-du lernst sie am Laptop und am Handy. Frage lesen → Antwort aus dem Kopf aufschreiben → aufdecken → selbst bewerten.
+Lern-App fürs Studium: Unterlagen in einen Fach-Ordner legen, Claude macht daraus automatisch Karteikarten,
+du lernst sie am Handy und am Laptop. Frage lesen → Antwort aus dem Kopf aufschreiben → aufdecken → selbst bewerten.
 Wann eine Karte wiederkommt, berechnet **FSRS-5**. Läuft offline und lässt sich auf dem Handy installieren.
 
-## 1. Lokal starten
+**App:** https://maxiyolo2006-afk.github.io/active-recall/
 
-Im Projektordner ein Terminal öffnen und:
+## 1. Auf dem Handy installieren (einmalig)
 
-```bash
-python -m http.server 8000 --bind 127.0.0.1
-```
+Die Adresse oben auf dem Handy öffnen und:
+- **iPhone (Safari):** Teilen-Symbol → „Zum Home-Bildschirm“
+- **Android (Chrome):** Menü ⋮ → „App installieren“ bzw. „Zum Startbildschirm hinzufügen“
 
-Dann im Browser **http://localhost:8000** öffnen.
+Neue Karten holt sich die App beim Öffnen mit Internet selbst, danach geht alles auch offline.
 
-> `http.server` liefert immer den Ordner aus, in dem du den Befehl startest. Also **im Projektordner** starten,
-> nicht im Benutzerordner. `--bind 127.0.0.1` sorgt dafür, dass nur dein Laptop zugreifen kann.
-> `index.html` per Doppelklick zu öffnen funktioniert nicht (der Browser blockiert dann das Laden der Decks).
+## 2. Neue Unterlagen → Karten (automatisch)
 
-## 2. Karten erzeugen
+1. In `materialien/` pro Fach einen Unterordner anlegen – Name frei wählbar, z. B. `ET2` oder `Technische Mechanik B`.
+2. Unterlagen hineinlegen: PDF (Folien, Skripte, Scans), Fotos, `.docx`, `.txt`/`.md`. PowerPoint bitte als PDF speichern.
+   Geht auch vom Handy aus über die OneDrive-App, der Ordner liegt in OneDrive.
+3. Fertig. Die geplante Aufgabe **„Karten-Automatik“** in der Claude-App schaut **alle 3 Stunden (7–22 Uhr)** nach,
+   erstellt Karten für neue oder geänderte Dateien (max. 8 pro Lauf) und lädt sie hoch. Etwa 1 Minute später sind sie in der App.
 
-1. Unterlagen (PDF, Bilder, `.docx`, `.md`) nach `materialien/<fach>/` legen, z. B. `materialien/et2/`.
-   Fachname: Kleinbuchstaben, Ziffern, Bindestrich.
-2. Claude Code **in diesem Ordner** starten und eingeben: `/karten et2`
-3. App neu laden.
+- Sofort statt warten: Claude-App → Seitenleiste **„Geplant“** → Karten-Automatik → **„Jetzt ausführen“**.
+- Die Automatik läuft nur, solange die Claude-App auf dem Laptop offen ist; verpasste Läufe holt sie beim nächsten Start nach.
+- Fragt ein Lauf nach einer Erlaubnis, einmal zustimmen – sie gilt dann für alle weiteren Läufe.
+- Von Hand für ein Fach: Claude Code in diesem Ordner starten, `/karten ET2` eingeben (lädt nicht hoch),
+  oder `/karten-alle` (alle Fächer + Upload).
 
 Claude verarbeitet nur Dateien, die neu sind oder sich geändert haben (Liste: `materialien/verarbeitet.json`).
 Neue Karten werden nur angehängt; ein Prüfskript verhindert, dass bestehende Karten verändert werden.
 Die Regeln für gute Karten stehen in [CLAUDE.md](CLAUDE.md).
 
-## 3. Aufs Handy bringen (GitHub Pages)
+> **Öffentlich:** Das Repo (github.com/maxiyolo2006-afk/active-recall) ist öffentlich, die Karten sind für jeden mit dem Link lesbar.
+> Die Unterlagen selbst (`materialien/<Fach>/`) werden über `.gitignore` **nicht** hochgeladen.
 
-**Einmalig:**
+## 3. Lokal am Laptop starten (optional)
 
-1. Auf github.com ein neues Repository anlegen, z. B. `active-recall`, Sichtbarkeit **Public**
-   (GitHub Pages ist im kostenlosen Tarif nur für öffentliche Repos verfügbar).
-2. Im Projektordner:
-
-   ```bash
-   git init -b main
-   ```
-   ```bash
-   git add .
-   ```
-   ```bash
-   git commit -m "Active Recall"
-   ```
-   ```bash
-   git remote add origin https://github.com/DEIN-NAME/active-recall.git
-   ```
-   ```bash
-   git push -u origin main
-   ```
-3. Im Repo: **Settings → Pages → Source: „Deploy from a branch“ → Branch `main`, Ordner `/ (root)` → Save.**
-   Nach ca. 1 Minute läuft die App unter `https://DEIN-NAME.github.io/active-recall/`.
-4. Die Adresse auf dem Handy öffnen und installieren:
-   - **iPhone (Safari):** Teilen-Symbol → „Zum Home-Bildschirm“
-   - **Android (Chrome):** Menü ⋮ → „App installieren“ bzw. „Zum Startbildschirm hinzufügen“
-
-**Nach jedem `/karten`:**
+Die Online-Adresse funktioniert auch am Laptop. Lokal (z. B. zum Testen) im Projektordner:
 
 ```bash
-git add decks materialien/verarbeitet.json
-```
-```bash
-git commit -m "Neue Karten"
-```
-```bash
-git push
+python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Beim nächsten Öffnen mit Internet holt sich die App die neuen Karten automatisch, danach geht es auch offline.
-
-> **Öffentlich:** Bei einem Public-Repo sind deine Decks für jeden mit dem Link lesbar.
-> Die Unterlagen selbst (`materialien/`) werden über `.gitignore` **nicht** hochgeladen.
+Dann **http://localhost:8000** öffnen. Den Befehl **im Projektordner** starten, nicht im Benutzerordner –
+`http.server` liefert immer den Ordner aus, in dem er gestartet wird.
 
 ## 4. Fortschritt zwischen Laptop und Handy
 
@@ -119,22 +90,24 @@ sw.js, manifest.json, icons/   PWA: Offline-Cache, Installation
 vendor/katex/                  Formelsatz (lokal, damit offline)
 decks/<fach>.json              Karten pro Fach
 decks/index.json               Liste der Decks (automatisch erzeugt)
-materialien/<fach>/            deine Unterlagen (nicht im Git)
+materialien/<Fach>/            deine Unterlagen, ein Ordner pro Fach (nicht im Git)
 materialien/verarbeitet.json   welche Unterlagen schon verarbeitet sind
 tools/karten.py                Prüf- und Hilfsskript für die Karten
 CLAUDE.md                      Regeln für die Kartenerstellung
-.claude/commands/karten.md     der Befehl /karten
+.claude/commands/karten.md     /karten <Fach> – ein Fach von Hand
+.claude/commands/karten-alle.md  /karten-alle – alle Fächer + Upload (macht die Automatik)
 ```
 
 ## Probleme?
 
 | Symptom | Ursache | Lösung |
 |---|---|---|
-| „Decks konnten nicht geladen werden“ | `index.html` per Doppelklick geöffnet | Über `python -m http.server` starten (Schritt 1) |
-| Statt der App eine Dateiliste | Server im falschen Ordner gestartet | Im Projektordner starten |
+| Neue Unterlagen werden nicht verarbeitet | Claude-App war zu, oder ein Lauf wartet auf eine Erlaubnis | Seitenleiste „Geplant“ → Karten-Automatik: letzten Lauf öffnen, ggf. zustimmen oder „Jetzt ausführen“ |
+| Neue Karten fehlen auf dem Handy | Lauf noch nicht gelaufen / Seite noch alt | App mit Internet öffnen und kurz warten bzw. neu öffnen |
+| Datei wird übersprungen | Format nicht lesbar (z. B. `.pptx`, passwortgeschützt) | Als PDF speichern und neu ablegen |
+| „Decks konnten nicht geladen werden“ (lokal) | `index.html` per Doppelklick geöffnet | Über `python -m http.server` starten (Schritt 3) |
+| Statt der App eine Dateiliste (lokal) | Server im falschen Ordner gestartet | Im Projektordner starten |
 | „Address already in use“ | Port 8000 belegt | Anderen Port nehmen: `python -m http.server 8765 --bind 127.0.0.1` |
-| Neue Karten fehlen in der App | `index.json` nicht aktualisiert oder Seite noch alt | `python tools/karten.py pruefen`, Seite online neu laden |
-| Neue Karten fehlen auf dem Handy | nicht gepusht | `git push`, App mit Internet öffnen |
 | Formel rot oder als Rohtext | LaTeX-Fehler oder einfacher Backslash im JSON | `python tools/karten.py pruefen` zeigt die Karte |
 | Fortschritt auf dem Handy weg | Browser hat Website-Daten gelöscht | Als App installieren, regelmäßig exportieren |
 | GitHub-Pages-Adresse zeigt 404 | Pages noch nicht aktiv oder falscher Branch | Settings → Pages prüfen, 1–2 Minuten warten |
@@ -146,5 +119,5 @@ CLAUDE.md                      Regeln für die Kartenerstellung
 python tools/karten.py pruefen
 ```
 
-Weitere Befehle: `neu <fach>`, `snapshot`, `naechste-id <fach> <thema>`, `pruefen --gegen-snapshot`, `erledigt <fach> <datei>`
+Weitere Befehle: `faecher`, `neu <fach>`, `snapshot`, `naechste-id <fach> <thema>`, `pruefen --gegen-snapshot`, `erledigt <fach> <datei>`, `text <datei>`
 (Details: `python tools/karten.py -h`).
