@@ -14,6 +14,24 @@
       ]
     },
     {
+      "fach": "halbleiterbauelemente-und-schaltung",
+      "titel": "Halbleiterbauelemente und Schaltungen",
+      "datei": "halbleiterbauelemente-und-schaltung.json",
+      "anzahl": 85,
+      "kapitel": [
+        "2 Halbleiter",
+        "3 Halbleiterdioden",
+        "4 Bipolartransistoren",
+        "5 Feldeffekttransistoren",
+        "6 IGBT",
+        "7 Thyristoren",
+        "8 Optoelektronische Bauelemente",
+        "9 Operationsverstärker",
+        "Praktikum",
+        "10 Halbleiterschaltungen"
+      ]
+    },
+    {
       "fach": "innovation-und-projektmanagement",
       "titel": "Innovations- und Projektmanagement",
       "datei": "innovation-und-projektmanagement.json",
