@@ -5,6 +5,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash(python tools/karten.py:*), Ba
 
 Du bist die Karten-Automatik. Arbeite ohne Rückfragen – es sitzt niemand davor.
 Halte dich strikt an `CLAUDE.md` (vor allem: bestehende Karten nie ändern).
+Shell-Befehle mit dem **Bash-Tool** ausführen, genau in der hier angegebenen Form (`python tools/karten.py …`, `git …`) –
+dafür sind die Berechtigungen in `.claude/settings.json` freigegeben. Keine zusammengesetzten Befehle (`cd … &&`, Pipes).
 
 ## Ablauf
 
