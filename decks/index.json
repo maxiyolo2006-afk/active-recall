@@ -2,6 +2,18 @@
   "generiert": "2026-10-18",
   "decks": [
     {
+      "fach": "elektrische-messtechnik",
+      "titel": "Elektrische Messtechnik",
+      "datei": "elektrische-messtechnik.json",
+      "anzahl": 41,
+      "kapitel": [
+        "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+        "Praktikum 2 – Kenngrößen periodischer Spannungen",
+        "Praktikum 3 – Signale im Frequenzbereich",
+        "Praktikum 4 – Messverstärker"
+      ]
+    },
+    {
       "fach": "innovation-und-projektmanagement",
       "titel": "Innovations- und Projektmanagement",
       "datei": "innovation-und-projektmanagement.json",

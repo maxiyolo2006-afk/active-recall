@@ -1,0 +1,375 @@
+{
+  "fach": "elektrische-messtechnik",
+  "titel": "Elektrische Messtechnik",
+  "karten": [
+    {
+      "id": "elektrische-messtechnik-widerstand-001",
+      "frage": "Welchen Vorteil bietet die 4-Leiter-Widerstandsmessung gegenüber der 2-Leiter-Messung, und warum?",
+      "antwort": "Zuleitungs- und Kontaktwiderstände gehen **nicht** ins Ergebnis ein: Der Messstrom fließt über zwei Leitungen, die Spannung wird über zwei getrennte Fühlerleitungen direkt am Widerstand abgegriffen. Wegen der hochohmigen Spannungsmessung fließt dort praktisch kein Strom → kein Spannungsabfall auf den Fühlerleitungen.\nWichtig vor allem bei **kleinen** Widerständen.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 3",
+      "tags": ["widerstandsmessung", "4-leiter"]
+    },
+    {
+      "id": "elektrische-messtechnik-widerstand-002",
+      "frage": "Wie bestimmt man die Messunsicherheit eines Digitalmultimeters aus dem Datenblatt?",
+      "antwort": "Datenblatt-Angabe: $\\pm(x\\,\\%$ vom Messwert $+\\; y\\,\\%$ vom Messbereich$)$, teils auch $+\\,n$ Digits.\n$$\\Delta R = \\frac{x}{100}\\,R_{\\text{Mess}} + \\frac{y}{100}\\,R_{\\text{Bereich}}$$\nDeshalb den kleinsten passenden Messbereich wählen.",
+      "typ": "definition",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 3",
+      "tags": ["messunsicherheit", "multimeter"]
+    },
+    {
+      "id": "elektrische-messtechnik-widerstand-003",
+      "frage": "Wie sind der absolute Fehler $A$ und der relative Fehler $a$ einer Messung definiert?",
+      "antwort": "$$A = x_a - x_w \\qquad a = \\frac{A}{x_w} = \\frac{x_a - x_w}{x_w}$$\n$x_a$: gemessener (angezeigter) Wert, $x_w$: wahrer Wert – im Praktikum das Ergebnis der 4-Leiter-Messung. $a$ meist in %.",
+      "typ": "definition",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 5",
+      "tags": ["messfehler"]
+    },
+    {
+      "id": "elektrische-messtechnik-widerstand-004",
+      "frage": "Vergleiche strom- und spannungsrichtige Widerstandsmessung: Wie sind die Messgeräte geschaltet, welcher Fehler entsteht, und wann eignet sich welche?",
+      "antwort": "- **Stromrichtig:** Amperemeter direkt in Reihe mit $R_X$, Voltmeter über $R_X$ **und** Amperemeter → $U$ um $I R_I$ zu groß → $R_X$ zu groß. Gut für **große** $R_X$ ($R_X \\gg R_I$).\n- **Spannungsrichtig:** Voltmeter direkt parallel zu $R_X$, Amperemeter misst $I_X + I_U$ → $I$ zu groß → $R_X$ zu klein. Gut für **kleine** $R_X$ ($R_X \\ll R_U$).",
+      "typ": "vergleich",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 4–5",
+      "tags": ["widerstandsmessung", "stromrichtig", "spannungsrichtig"]
+    },
+    {
+      "id": "elektrische-messtechnik-widerstand-005",
+      "frage": "Wie korrigiert man den Messwert $R_X = U/I$ mit den Innenwiderständen $R_I$ (Strommessung) und $R_U$ (Spannungsmessung) bei strom- und spannungsrichtiger Messung?",
+      "antwort": "Stromrichtig (Spannungsabfall am Amperemeter abziehen):\n$$R_X' = \\frac{U}{I} - R_I$$\nSpannungsrichtig (Strom durch das Voltmeter abziehen):\n$$R_X' = \\frac{U}{I - \\dfrac{U}{R_U}}$$",
+      "typ": "definition",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 5",
+      "tags": ["widerstandsmessung", "innenwiderstand"]
+    },
+    {
+      "id": "elektrische-messtechnik-ptc-001",
+      "frage": "Ein PTC wird linear beschrieben durch $R_T = m \\cdot \\Delta T + R_0$ ($\\Delta T$ = Temperatur in °C). Wie bringt man das auf die Form mit Temperaturkoeffizient $\\alpha$, und wie berechnet man aus einem gemessenen $R_T$ die Temperatur?",
+      "antwort": "$$R_T = R_0\\,(1 + \\alpha\\,\\Delta T), \\qquad \\alpha = \\frac{m}{R_0}$$\nUmgestellt nach der Temperatur:\n$$\\Delta T = \\frac{R_T - R_0}{\\alpha\\,R_0} = \\frac{R_T - R_0}{m}$$",
+      "typ": "definition",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 8–9",
+      "tags": ["ptc", "temperaturkoeffizient"]
+    },
+    {
+      "id": "elektrische-messtechnik-ptc-002",
+      "frage": "Wie bestimmt man im Praktikum den Widerstand eines PTC mit Stromquelle und Spannungsmessung, und warum wählt man einen kleinen Messstrom (1 mA)?",
+      "antwort": "Konstanten Messstrom einprägen, Spannung am PTC messen: $$R_T = \\frac{U_{\\text{Mess}}}{I_{\\text{Mess}}}$$\nKleiner Strom → geringe Verlustleistung $P = I^2 R_T$ → kaum Eigenerwärmung, die sonst die gemessene Temperatur verfälschen würde.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 8",
+      "tags": ["ptc", "widerstandsmessung"]
+    },
+    {
+      "id": "elektrische-messtechnik-bruecke-001",
+      "frage": "Vergleiche Abgleich- und Ausschlagverfahren bei der Auswertung eines Sensors mit einer Brückenschaltung.",
+      "antwort": "- **Abgleichverfahren:** Brücke (z. B. mit Poti) auf $U_B = 0$ abgleichen; der Sensorwiderstand folgt aus dem Widerstandsverhältnis. Unabhängig von der Versorgungsspannung, genau – aber nur für langsame Änderungen.\n- **Ausschlagverfahren:** Brückenspannung $U_B$ messen und daraus $\\Delta R$ berechnen. Kontinuierlich messbar, aber abhängig von $U_0$ und bei großen $\\Delta R$ nichtlinear.",
+      "typ": "vergleich",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 10",
+      "tags": ["bruecke", "abgleich", "ausschlag"]
+    },
+    {
+      "id": "elektrische-messtechnik-bruecke-002",
+      "frage": "Wann ist eine Wheatstone-Brücke abgeglichen, und wie folgt daraus der unbekannte Widerstand?",
+      "antwort": "Abgeglichen bei $U_B = 0$: Beide Spannungsteiler ($R_1$/$R_2$ und $R_3$/$R_4$) haben dasselbe Teilerverhältnis\n$$\\frac{R_1}{R_2} = \\frac{R_3}{R_4} \\;\\Leftrightarrow\\; R_1 R_4 = R_2 R_3$$\n→ unbekannter Widerstand z. B. $R_1 = R_2\\,\\frac{R_3}{R_4}$ (Verhältnis aus der Poti-Stellung).",
+      "typ": "definition",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 10",
+      "tags": ["bruecke", "abgleich"]
+    },
+    {
+      "id": "elektrische-messtechnik-bruecke-003",
+      "frage": "Wie groß ist die Brückenspannung $U_d$ bei Spannungsspeisung $U_0$ (kleine $\\Delta R$) für Viertel-, Halb- und Vollbrücke?",
+      "antwort": "- Viertelbrücke (1 aktiver Widerstand): $U_d \\approx \\frac{U_0}{4}\\,\\frac{\\Delta R}{R_0}$\n- Halbbrücke (2 aktive): $U_d \\approx \\frac{U_0}{2}\\,\\frac{\\Delta R}{R_0}$\n- Vollbrücke (4 aktive): $U_d = U_0\\,\\frac{\\Delta R}{R_0}$\nMehr richtig angeordnete aktive Elemente → höhere Empfindlichkeit.",
+      "typ": "vergleich",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 12, Abbildung 4-1",
+      "tags": ["bruecke", "halbbruecke", "empfindlichkeit"]
+    },
+    {
+      "id": "elektrische-messtechnik-bruecke-004",
+      "frage": "Eine Brücke (Versorgung $U_0$) enthält zwei PTC $R_T = R_0 + \\Delta R$ in diagonal gegenüberliegenden Zweigen und zwei Festwiderstände $R_0$. Leite die exakte Brückenspannung her und stelle nach $R_T$ um.",
+      "antwort": "1. Linker Teiler: $R_T$ oben, $R_0$ unten; rechter Teiler: $R_0$ oben, $R_T$ unten.\n2. $U_B = U_0\\left(\\frac{R_T}{R_T + R_0} - \\frac{R_0}{R_T + R_0}\\right) = U_0\\,\\frac{R_T - R_0}{R_T + R_0} = U_0\\,\\frac{\\Delta R}{2R_0 + \\Delta R}$\n3. Umgestellt: $\\Delta R = \\frac{2R_0\\,U_B}{U_0 - U_B}$ und $R_T = R_0\\,\\frac{U_0 + U_B}{U_0 - U_B}$\nNäherung für kleine $\\Delta R$: $U_B \\approx \\frac{U_0}{2}\\,\\frac{\\Delta R}{R_0}$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 1 – Widerstandsmessung und Brückenschaltung",
+      "quelle": "EMT_Praktikum1.pdf, S. 11–12",
+      "tags": ["bruecke", "halbbruecke", "ptc"]
+    },
+    {
+      "id": "elektrische-messtechnik-kenngroessen-001",
+      "frage": "Erkläre arithmetischen Mittelwert, Effektivwert und Effektivwert des Wechselanteils einer periodischen Spannung und wie sie zusammenhängen.",
+      "antwort": "$$\\overline{U} = \\frac{1}{T}\\int_0^T u(t)\\,dt \\qquad U_{\\text{eff}} = \\sqrt{\\frac{1}{T}\\int_0^T u^2(t)\\,dt}$$\nWechselanteil: $u_\\sim(t) = u(t) - \\overline{U}$, davon der Effektivwert $U_{\\text{AC,eff}}$.\n$$U_{\\text{eff}}^2 = \\overline{U}^2 + U_{\\text{AC,eff}}^2$$",
+      "typ": "definition",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 2–3",
+      "tags": ["mittelwert", "effektivwert"]
+    },
+    {
+      "id": "elektrische-messtechnik-kenngroessen-002",
+      "frage": "Eine PWM-Spannung springt zwischen 0 V und 7 V, Periodendauer 10 ms, Tastgrad $D = 0{,}25$. Berechne $\\overline{U}$, $U_{\\text{eff}}$ und $U_{\\text{AC,eff}}$.",
+      "antwort": "1. $\\overline{U} = D\\,\\hat{U} = 0{,}25 \\cdot 7\\,\\text{V} = 1{,}75\\,\\text{V}$\n2. $U_{\\text{eff}} = \\hat{U}\\sqrt{D} = 7\\,\\text{V} \\cdot 0{,}5 = 3{,}5\\,\\text{V}$\n3. $U_{\\text{AC,eff}} = \\sqrt{U_{\\text{eff}}^2 - \\overline{U}^2} = \\sqrt{12{,}25 - 3{,}06}\\,\\text{V} \\approx 3{,}03\\,\\text{V}$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 3–4",
+      "tags": ["pwm", "effektivwert", "mittelwert"]
+    },
+    {
+      "id": "elektrische-messtechnik-kenngroessen-003",
+      "frage": "Welche Einstellungen braucht der Funktionsgenerator für eine PWM-Spannung zwischen 0 V und 7 V mit 10 ms Periodendauer und Tastgrad 25 %?",
+      "antwort": "- Spannungsform: Puls/Rechteck mit Duty Cycle $D = 25\\,\\%$\n- $U_{\\text{SS}} = 7\\,\\text{V}$\n- $U_{\\text{off}} = 3{,}5\\,\\text{V}$ (Mitte zwischen 0 V und 7 V)\n- $f = \\frac{1}{10\\,\\text{ms}} = 100\\,\\text{Hz}$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 3",
+      "tags": ["pwm", "funktionsgenerator"]
+    },
+    {
+      "id": "elektrische-messtechnik-kenngroessen-004",
+      "frage": "Welche Größe misst ein Multimeter im DC-Modus, welche im AC-Modus (True RMS), und wie erhält man daraus den Effektivwert?",
+      "antwort": "- DC-Modus: arithmetischer Mittelwert $\\overline{U}$\n- AC-Modus (TRMS): Effektivwert des Wechselanteils $U_{\\text{AC,eff}}$\n$$U_{\\text{eff}} = \\sqrt{U_{\\text{DC}}^2 + U_{\\text{AC}}^2}$$",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 4",
+      "tags": ["multimeter", "effektivwert"]
+    },
+    {
+      "id": "elektrische-messtechnik-kenngroessen-005",
+      "frage": "Was zeigt ein Oszilloskop bei AC-Kopplung, und wie sieht damit eine PWM-Spannung aus?",
+      "antwort": "Nur den **Wechselanteil**: Der Gleichanteil wird durch einen Koppelkondensator abgetrennt. Die Kurve liegt so, dass ihr Mittelwert 0 V ist (Flächen über und unter der Nulllinie gleich) – die PWM-Spannung ist also nach unten verschoben, Pulse und Pausen behalten ihre Form.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 3–4",
+      "tags": ["oszilloskop", "ac-kopplung"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-001",
+      "frage": "Was versteht man unter der Brummspannung, und welcher Messwert entspricht ihr beim Einweggleichrichter mit Glättungskondensator?",
+      "antwort": "Brummspannung $U_{\\text{Br}}$ = verbleibender **Wechselanteil** (Restwelligkeit) der gleichgerichteten, geglätteten Spannung – entsteht durch Laden und Entladen des Kondensators.\nIm Versuch entspricht ihr der im AC-Modus gemessene Wert $U_{\\text{a,AC}}$ (Effektivwert des Wechselanteils).",
+      "typ": "definition",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 6",
+      "tags": ["gleichrichter", "brummspannung"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-002",
+      "frage": "Warum erreicht die Ausgangsspannung eines Einweggleichrichters (Si-Diode + Kondensator) nicht den Scheitelwert der Eingangsspannung?",
+      "antwort": "An der Si-Diode fällt in Durchlassrichtung die **Schwellspannung** (ca. 0,6–0,7 V) ab. Der Kondensator lädt sich daher nur auf $\\hat{u}_e - U_F$ auf.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 6",
+      "tags": ["gleichrichter", "diode"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-003",
+      "frage": "Warum entlädt sich der Glättungskondensator zwischen den Ladevorgängen, und warum sinkt $\\overline{U}_a$, wenn man die Frequenz von 100 Hz auf 10 Hz verringert?",
+      "antwort": "Der Kondensator wird belastet: Innenwiderstände der angeschlossenen Messgeräte (Multimeter, Oszilloskop) sowie Leck- und Sperrströme entladen ihn.\nBei 10 Hz ist die Zeit zwischen zwei Ladevorgängen 10-mal länger → er entlädt sich stärker → $\\overline{U}_a$ sinkt, die Brummspannung steigt. Ohne Oszilloskop und zweites Messgerät (weniger Last) steigt $\\overline{U}_a$ wieder.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 7–8",
+      "tags": ["gleichrichter", "kondensator", "belastung"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-004",
+      "frage": "Welche Nachteile kompensiert der Spitzenwertgleichrichter mit Operationsverstärker (Diode in der Rückkopplung), und was begrenzt ihn bei hohen Frequenzen (z. B. 10 kHz)?",
+      "antwort": "Er kompensiert die **Schwellspannung der Diode**: Der OPV regelt mit seiner hohen Verstärkung den Diodenabfall aus, der Kondensator lädt sich auf den vollen Scheitelwert.\nBei hohen Frequenzen begrenzt vor allem die **Slew Rate** (endliche Anstiegsgeschwindigkeit) des realen OPV: Er muss in jeder Periode aus der Sättigung zurückkommen und kann der Eingangsspannung nicht mehr folgen.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 8",
+      "tags": ["gleichrichter", "opv", "slew-rate"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-005",
+      "frage": "Warum eignet sich ein einfacher Brückengleichrichter (Dioden + Widerstand) nicht, um den Gleichrichtwert kleiner Spannungen zu messen?",
+      "antwort": "Im Strompfad liegen immer **zwei Dioden in Reihe** → ca. $2 \\times 0{,}7\\,\\text{V}$ Schwellspannung. Kleine Spannungen werden gar nicht oder stark verzerrt gleichgerichtet, die Kennlinie ist nichtlinear. Abhilfe: Präzisionsgleichrichter mit OPV.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 11",
+      "tags": ["gleichrichter", "praezisionsgleichrichter"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-006",
+      "frage": "Wie ist der Formfaktor $F$ definiert, und wie wird er im Praktikum mit dem Präzisionsgleichrichter aus $U_{\\text{eff}}$, $\\overline{I}$ und $R$ bestimmt?",
+      "antwort": "$$F = \\frac{U_{\\text{eff}}}{\\overline{|u|}} \\qquad (\\text{Sinus: } F \\approx 1{,}11)$$\nDer Präzisionsgleichrichter liefert einen Ausgangsstrom mit Mittelwert $\\overline{I} = \\overline{|u|}/R$, also\n$$F = \\frac{U_{\\text{eff}}}{R\\,\\overline{I}}$$",
+      "typ": "definition",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 10–13",
+      "tags": ["formfaktor", "gleichrichtwert"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-007",
+      "frage": "Eine Treppenspannung durchläuft pro Periode $T$ die acht Stufen $\\pm\\frac{1}{7}\\hat{U}$, $\\pm\\frac{3}{7}\\hat{U}$, $\\pm\\frac{5}{7}\\hat{U}$, $\\pm\\hat{U}$, jede für $T/8$. Leite den Formfaktor her.",
+      "antwort": "1. Gleichrichtwert: $\\overline{|u|} = \\frac{2}{8}\\,\\hat{U}\\left(\\frac{1}{7} + \\frac{3}{7} + \\frac{5}{7} + 1\\right) = \\frac{4}{7}\\,\\hat{U} \\approx 0{,}571\\,\\hat{U}$\n2. Effektivwert: $U_{\\text{eff}}^2 = \\frac{2}{8}\\,\\hat{U}^2\\,\\frac{1 + 9 + 25 + 49}{49} = \\frac{3}{7}\\,\\hat{U}^2 \\Rightarrow U_{\\text{eff}} \\approx 0{,}655\\,\\hat{U}$\n3. $F = \\frac{U_{\\text{eff}}}{\\overline{|u|}} = \\frac{\\sqrt{3/7}}{4/7} = \\frac{\\sqrt{21}}{4} \\approx 1{,}146$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 10",
+      "tags": ["formfaktor", "treppenspannung"]
+    },
+    {
+      "id": "elektrische-messtechnik-gleichrichter-008",
+      "frage": "Der Formfaktor wird berechnet als $F = \\frac{U}{R\\,I}$. Bestimme die partiellen Ableitungen und die Gesamtabweichung $\\Delta F$ nach der gaußschen Fehlerfortpflanzung.",
+      "antwort": "1. $\\frac{\\partial F}{\\partial U} = \\frac{1}{R I}$, $\\;\\frac{\\partial F}{\\partial I} = -\\frac{U}{R I^2}$, $\\;\\frac{\\partial F}{\\partial R} = -\\frac{U}{R^2 I}$\n2. $\\Delta F = \\sqrt{\\left(\\frac{\\Delta U}{R I}\\right)^2 + \\left(\\frac{U\\,\\Delta I}{R I^2}\\right)^2 + \\left(\\frac{U\\,\\Delta R}{R^2 I}\\right)^2}$\n3. Relativ: $\\frac{\\Delta F}{F} = \\sqrt{\\left(\\frac{\\Delta U}{U}\\right)^2 + \\left(\\frac{\\Delta I}{I}\\right)^2 + \\left(\\frac{\\Delta R}{R}\\right)^2}$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 2 – Kenngrößen periodischer Spannungen",
+      "quelle": "EMT_Praktikum2.pdf, S. 13",
+      "tags": ["fehlerfortpflanzung", "formfaktor"]
+    },
+    {
+      "id": "elektrische-messtechnik-fft-001",
+      "frage": "Wovon hängt die Frequenzauflösung $\\Delta f$ einer FFT am Oszilloskop ab, und wie ändert sie sich, wenn man die Zeitbasis von 20 µs/div auf 200 µs/div vergrößert?",
+      "antwort": "$$\\Delta f = \\frac{1}{T_{\\text{Mess}}}$$\n$T_{\\text{Mess}}$ = Dauer des aufgenommenen Zeitfensters. Größere Zeitbasis → längeres Zeitfenster → **feinere** Auflösung (kleineres $\\Delta f$). Faktor 10 mehr Zeit → $\\Delta f$ zehnmal kleiner.",
+      "typ": "definition",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 4–5",
+      "tags": ["fft", "frequenzaufloesung"]
+    },
+    {
+      "id": "elektrische-messtechnik-fft-002",
+      "frage": "Welcher Fehler entsteht bei der FFT einer Sinusspannung, wenn das Zeitfenster nur wenige und keine ganzzahlige Anzahl von Perioden enthält (Rechteckfenster)?",
+      "antwort": "**Leck-Effekt (Leakage):** Die FFT setzt das Zeitfenster periodisch fort; bei nicht ganzzahligen Perioden entsteht ein Sprung. Die Energie der einen Frequenz verteilt sich auf benachbarte Linien → verbreiterter Peak, falsche Amplitude. Bei wenigen Perioden kommt eine grobe Frequenzauflösung hinzu.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 4",
+      "tags": ["fft", "leakage"]
+    },
+    {
+      "id": "elektrische-messtechnik-fft-003",
+      "frage": "Wie wird ein Gleichanteil im Frequenzspektrum sichtbar?",
+      "antwort": "Als Spektrallinie bei $f = 0\\,\\text{Hz}$, deren Höhe dem Gleichanteil entspricht. Die Linie der Sinusfrequenz bleibt unverändert.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 5",
+      "tags": ["fft", "gleichanteil"]
+    },
+    {
+      "id": "elektrische-messtechnik-fft-004",
+      "frage": "Wie berechnet man aus den Spektrallinien (Effektivwerte) einer Spannung ihren Effektivwert und den Grundschwingungsgehalt $g$?",
+      "antwort": "$$U_{\\text{eff}} = \\sqrt{U_0^2 + U_1^2 + U_2^2 + \\dots}$$\n($U_0$: Gleichanteil, $U_k$: Effektivwert der $k$-ten Harmonischen)\n$$g = \\frac{U_1}{U_{\\text{eff}}}$$\nAbweichung zum Multimeter: Nur endlich viele Harmonische werden berücksichtigt, dazu Messbereich und Bandbreite.",
+      "typ": "definition",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 7–9",
+      "tags": ["effektivwert", "grundschwingungsgehalt", "spektrum"]
+    },
+    {
+      "id": "elektrische-messtechnik-fft-005",
+      "frage": "Vergleiche das Spektrum einer Rampen-/Sägezahnspannung (Symmetrie 100 %) mit dem einer Dreieckspannung (Symmetrie 50 %). Wie unterscheiden sich die Grundschwingungsgehalte?",
+      "antwort": "- **Sägezahn:** alle Harmonischen (gerade und ungerade), Amplitude $\\sim 1/k$ → viele starke Oberschwingungen, $g \\approx 0{,}78$\n- **Dreieck:** nur **ungerade** Harmonische, Amplitude $\\sim 1/k^2$ → Oberschwingungen fallen schnell ab, $g \\approx 0{,}99$\nDie Dreieckspannung ist also deutlich „sinusähnlicher“.",
+      "typ": "vergleich",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 6–9",
+      "tags": ["spektrum", "grundschwingungsgehalt", "oberschwingungen"]
+    },
+    {
+      "id": "elektrische-messtechnik-abtastung-001",
+      "frage": "Was sagen am Digitaloszilloskop die Angabe in Sa/s und die Angabe in Hz aus?",
+      "antwort": "- **Sa/s (Samples pro Sekunde):** Abtastrate – wie oft das Oszilloskop das Signal pro Sekunde abtastet.\n- **Hz:** gemessene Frequenz des dargestellten Signals (Frequenzzähler).",
+      "typ": "definition",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 10",
+      "tags": ["oszilloskop", "abtastrate"]
+    },
+    {
+      "id": "elektrische-messtechnik-abtastung-002",
+      "frage": "Ein invertierender Addierer ($R_1 = R_2 = R_k = 1\\,\\text{k}\\Omega$) addiert zwei Sinusspannungen mit 250 Hz und 2500 Hz. Wie lautet $u_a(t)$, welche Frequenz hat $u_a$, und wie schnell muss nach Shannon-Nyquist abgetastet werden?",
+      "antwort": "1. $u_a = -R_k\\left(\\frac{u_{e1}}{R_1} + \\frac{u_{e2}}{R_2}\\right) = -(u_{e1} + u_{e2})$\n2. 2500 Hz ist ein ganzzahliges Vielfaches von 250 Hz → $u_a$ ist periodisch mit $f = 250\\,\\text{Hz}$.\n3. Höchste Frequenz 2500 Hz → $f_{\\text{Ab}} > 2 \\cdot 2500\\,\\text{Hz} = 5\\,\\text{kHz}$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 10–11",
+      "tags": ["abtasttheorem", "addierer", "opv"]
+    },
+    {
+      "id": "elektrische-messtechnik-abtastung-003",
+      "frage": "Das Signal mit Anteilen bei 250 Hz und 2500 Hz wird mit 4 kHz bzw. 2 kHz abgetastet. Welcher Effekt tritt auf, wo erscheint der fehlerhafte Anteil, und wie verhindern Digitaloszilloskope das?",
+      "antwort": "Abtasttheorem verletzt → **Aliasing**: Der 2500-Hz-Anteil liegt über $f_{\\text{Ab}}/2$ und wird gespiegelt.\n1. $f_{\\text{Ab}} = 4\\,\\text{kHz}$: Alias bei $4000 - 2500 = 1500\\,\\text{Hz}$\n2. $f_{\\text{Ab}} = 2\\,\\text{kHz}$: Alias bei $|2500 - 2000| = 500\\,\\text{Hz}$ (250 Hz bleibt korrekt)\nAbhilfe: **Anti-Aliasing-Tiefpass** vor dem A/D-Wandler bzw. ausreichend hohe Abtastrate.\nBei 8 kHz ist das Theorem erfüllt: Das Spektrum stimmt, nur der Zeitverlauf wirkt eckiger.",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 3 – Signale im Frequenzbereich",
+      "quelle": "EMT_Praktikum3.pdf, S. 13–15",
+      "tags": ["abtasttheorem", "aliasing"]
+    },
+    {
+      "id": "elektrische-messtechnik-lissajous-001",
+      "frage": "Wie bestimmt man aus einer Lissajous-Figur (Frequenzverhältnis 1, xy-Betrieb) die Phasenverschiebung $\\Delta\\varphi$?",
+      "antwort": "$$\\Delta\\varphi = \\arcsin\\frac{\\hat{u}_{x0}}{\\hat{u}_y} = \\arcsin\\frac{\\hat{u}_{y0}}{\\hat{u}_x}$$\n$\\hat{u}_y$, $\\hat{u}_x$: maximale Auslenkung der Ellipse in y- bzw. x-Richtung; $\\hat{u}_{x0}$: Schnittpunkt mit der y-Achse (bei $x = 0$), $\\hat{u}_{y0}$: Schnittpunkt mit der x-Achse (bei $y = 0$).",
+      "typ": "definition",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 3",
+      "tags": ["lissajous", "phasenverschiebung"]
+    },
+    {
+      "id": "elektrische-messtechnik-lissajous-002",
+      "frage": "Wie erkennt man an einer Lissajous-Figur eine Phasenverschiebung über 90°, und lässt sich ablesen, welche Spannung vor- bzw. nacheilt?",
+      "antwort": "- 0°: Gerade steigend, 90°: aufrechte Ellipse bzw. Kreis, 180°: Gerade fallend.\n- **Über 90°** ist die Hauptachse der Ellipse nach links geneigt (fallend, 2./4. Quadrant).\n- Vor- oder Nacheilen ist am stehenden Bild **nicht** erkennbar, weil $+\\Delta\\varphi$ und $-\\Delta\\varphi$ dieselbe Figur ergeben – nur die Umlaufrichtung unterscheidet sich.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 3",
+      "tags": ["lissajous", "phasenverschiebung"]
+    },
+    {
+      "id": "elektrische-messtechnik-lissajous-003",
+      "frage": "Wie ermittelt man aus einer Lissajous-Figur das Frequenzverhältnis, und woran erkennt man ein nicht ganzzahliges Verhältnis (z. B. 1000 Hz zu 1999,5 Hz)?",
+      "antwort": "Berührpunkte der Figur zählen: $$\\frac{f_y}{f_x} = \\frac{\\text{Berührpunkte am oberen Rand}}{\\text{Berührpunkte am seitlichen Rand}}$$\nBei nicht ganzzahligem Verhältnis steht die Figur nicht still, sondern „läuft“ langsam durch (Differenz 0,5 Hz → wiederholt sich alle 2 s).",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 4",
+      "tags": ["lissajous", "frequenzverhaeltnis"]
+    },
+    {
+      "id": "elektrische-messtechnik-opv-001",
+      "frage": "Dimensioniere einen nicht-invertierenden Verstärker mit $v = 2{,}5$ (Widerstände im unteren kΩ-Bereich).",
+      "antwort": "1. $v = 1 + \\frac{R_2}{R_1}$ ($R_2$: Rückkopplung, $R_1$: invertierender Eingang nach Masse)\n2. $\\frac{R_2}{R_1} = 2{,}5 - 1 = 1{,}5$\n3. z. B. $R_1 = 2\\,\\text{k}\\Omega$, $R_2 = 3\\,\\text{k}\\Omega$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 4",
+      "tags": ["opv", "nicht-invertierend"]
+    },
+    {
+      "id": "elektrische-messtechnik-opv-002",
+      "frage": "Ein nicht-invertierender Verstärker ($v = 2{,}5$, Versorgung ±15 V) bekommt eine Dreieckspannung mit $U_{\\text{SS}} = 20\\,\\text{V}$. Warum erreicht die Ausgangsspannung ein Plateau, und wie zeigt sich das in der Betriebskennlinie (xy-Betrieb)?",
+      "antwort": "Ideal wären $\\pm 10\\,\\text{V} \\cdot 2{,}5 = \\pm 25\\,\\text{V}$, der Ausgang kann aber nicht über die Versorgungsspannung hinaus (real ca. ±13…14 V) → **Sättigung**, die Spitzen werden abgeschnitten.\nKennlinie $u_a = f(u_e)$: in der Mitte eine Gerade mit Steigung 2,5, an beiden Enden waagrechte Abschnitte = positiver und negativer Sättigungsbereich.",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 4",
+      "tags": ["opv", "saettigung", "kennlinie"]
+    },
+    {
+      "id": "elektrische-messtechnik-opv-003",
+      "frage": "Entwirf eine OPV-Schaltung, die den Eingangsbereich −2 … +2 V linear auf 0 … 12 V abbildet.",
+      "antwort": "1. Gesucht: $u_a = 3\\,u_e + 6\\,\\text{V}$ (Steigung $\\frac{12\\,\\text{V}}{4\\,\\text{V}} = 3$, Offset 6 V)\n2. Eine mögliche Lösung: nicht-invertierender Verstärker, invertierender Eingang über $R_1$ an eine Hilfsspannung $U_{\\text{ref}}$ statt an Masse: $u_a = \\left(1 + \\frac{R_2}{R_1}\\right)u_e - \\frac{R_2}{R_1}\\,U_{\\text{ref}}$\n3. $\\frac{R_2}{R_1} = 2$ (z. B. $1\\,\\text{k}\\Omega$ / $2\\,\\text{k}\\Omega$), $-2\\,U_{\\text{ref}} = 6\\,\\text{V} \\Rightarrow U_{\\text{ref}} = -3\\,\\text{V}$\nProbe: $u_e = -2\\,\\text{V} \\to 0\\,\\text{V}$, $u_e = 2\\,\\text{V} \\to 12\\,\\text{V}$",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 4–5",
+      "tags": ["opv", "pegelanpassung"]
+    },
+    {
+      "id": "elektrische-messtechnik-komparator-001",
+      "frage": "Vergleiche einen Komparator ohne Hysterese mit einem Schmitt-Trigger.",
+      "antwort": "- **Komparator ohne Hysterese:** OPV ohne Rückkopplung, schaltet bei genau einer Schwelle zwischen $U_{S+}$ und $U_{S-}$. Bei verrauschten oder langsamen Signalen schaltet er an der Schwelle mehrfach hin und her (Flattern).\n- **Schmitt-Trigger:** Mitkopplung → **zwei** Umschaltschwellen (Hysterese). Störungen kleiner als die Hysteresebreite lösen kein erneutes Umschalten aus.",
+      "typ": "vergleich",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 5",
+      "tags": ["komparator", "schmitt-trigger", "hysterese"]
+    },
+    {
+      "id": "elektrische-messtechnik-komparator-002",
+      "frage": "Dimensioniere einen nicht-invertierenden Schmitt-Trigger mit Umschaltspannungen $U_{eS} \\approx \\pm 3\\,\\text{V}$ (gemessene Sättigungsspannung z. B. $U_{S+} \\approx 13{,}5\\,\\text{V}$).",
+      "antwort": "1. Eingang über $R_1$ an den +Eingang, Mitkopplung $R_2$ vom Ausgang an den +Eingang, −Eingang an Masse.\n2. Umschalten, wenn der +Eingang 0 V erreicht: $U_{eS} = \\pm\\frac{R_1}{R_2}\\,U_S$\n3. $\\frac{R_1}{R_2} = \\frac{3\\,\\text{V}}{13{,}5\\,\\text{V}} \\approx 0{,}22$ → z. B. $R_1 = 2{,}2\\,\\text{k}\\Omega$, $R_2 = 10\\,\\text{k}\\Omega$ ($U_{eS} \\approx \\pm 2{,}97\\,\\text{V}$)",
+      "typ": "rechnung",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 5",
+      "tags": ["schmitt-trigger", "hysterese", "opv"]
+    },
+    {
+      "id": "elektrische-messtechnik-komparator-003",
+      "frage": "Die Umschaltpunkte eines Schmitt-Triggers (bisher ±3 V) sollen auf 0 V und +6 V verschoben werden. Welche Schaltungsänderung ist nötig?",
+      "antwort": "Hysteresebreite bleibt 6 V, nur der **Mittelpunkt** wandert von 0 V auf 3 V → Den bisher an Masse liegenden −Eingang an eine **Referenzspannung** $U_{\\text{ref}}$ legen.\nNicht-invertierender Schmitt-Trigger: $U_{eS} = U_{\\text{ref}}\\left(1 + \\frac{R_1}{R_2}\\right) \\pm \\frac{R_1}{R_2}\\,U_S$\n→ $U_{\\text{ref}} = \\frac{3\\,\\text{V}}{1{,}22} \\approx 2{,}45\\,\\text{V}$ (z. B. vom zweiten Kanal des Funktionsgenerators).",
+      "typ": "verstaendnis",
+      "kapitel": "Praktikum 4 – Messverstärker",
+      "quelle": "EMT_Praktikum4.pdf, S. 6",
+      "tags": ["schmitt-trigger", "referenzspannung"]
+    }
+  ]
+}

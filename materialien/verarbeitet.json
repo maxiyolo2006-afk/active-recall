@@ -1,5 +1,74 @@
 {
   "dateien": {
+    "Elektrische Messtechnik/EMT_Praktikum1.pdf": {
+      "sha256": "79fcb23900b3f78bd901d4047c9f6e77fda0e7d26f461e2c512c510f9a5d66b8",
+      "verarbeitet_am": "2026-10-18",
+      "deck": "elektrische-messtechnik",
+      "karten": [
+        "elektrische-messtechnik-widerstand-001",
+        "elektrische-messtechnik-widerstand-002",
+        "elektrische-messtechnik-widerstand-003",
+        "elektrische-messtechnik-widerstand-004",
+        "elektrische-messtechnik-widerstand-005",
+        "elektrische-messtechnik-ptc-001",
+        "elektrische-messtechnik-ptc-002",
+        "elektrische-messtechnik-bruecke-001",
+        "elektrische-messtechnik-bruecke-002",
+        "elektrische-messtechnik-bruecke-003",
+        "elektrische-messtechnik-bruecke-004"
+      ]
+    },
+    "Elektrische Messtechnik/EMT_Praktikum2.pdf": {
+      "sha256": "2f55e8a20111ceed55e395997802dd9db662e15471b94709a7fa1096cb637e58",
+      "verarbeitet_am": "2026-10-18",
+      "deck": "elektrische-messtechnik",
+      "karten": [
+        "elektrische-messtechnik-kenngroessen-001",
+        "elektrische-messtechnik-kenngroessen-002",
+        "elektrische-messtechnik-kenngroessen-003",
+        "elektrische-messtechnik-kenngroessen-004",
+        "elektrische-messtechnik-kenngroessen-005",
+        "elektrische-messtechnik-gleichrichter-001",
+        "elektrische-messtechnik-gleichrichter-002",
+        "elektrische-messtechnik-gleichrichter-003",
+        "elektrische-messtechnik-gleichrichter-004",
+        "elektrische-messtechnik-gleichrichter-005",
+        "elektrische-messtechnik-gleichrichter-006",
+        "elektrische-messtechnik-gleichrichter-007",
+        "elektrische-messtechnik-gleichrichter-008"
+      ]
+    },
+    "Elektrische Messtechnik/EMT_Praktikum3.pdf": {
+      "sha256": "4493b403859ee69fbb533b96bcfa236e4013d8bdcff745f035e30bfac4ce5ce2",
+      "verarbeitet_am": "2026-10-18",
+      "deck": "elektrische-messtechnik",
+      "karten": [
+        "elektrische-messtechnik-fft-001",
+        "elektrische-messtechnik-fft-002",
+        "elektrische-messtechnik-fft-003",
+        "elektrische-messtechnik-fft-004",
+        "elektrische-messtechnik-fft-005",
+        "elektrische-messtechnik-abtastung-001",
+        "elektrische-messtechnik-abtastung-002",
+        "elektrische-messtechnik-abtastung-003"
+      ]
+    },
+    "Elektrische Messtechnik/EMT_Praktikum4.pdf": {
+      "sha256": "64ce5dead87b8ec241bac9e18e81da6766d722b9229e02f7a22193425b53c55e",
+      "verarbeitet_am": "2026-10-18",
+      "deck": "elektrische-messtechnik",
+      "karten": [
+        "elektrische-messtechnik-lissajous-001",
+        "elektrische-messtechnik-lissajous-002",
+        "elektrische-messtechnik-lissajous-003",
+        "elektrische-messtechnik-opv-001",
+        "elektrische-messtechnik-opv-002",
+        "elektrische-messtechnik-opv-003",
+        "elektrische-messtechnik-komparator-001",
+        "elektrische-messtechnik-komparator-002",
+        "elektrische-messtechnik-komparator-003"
+      ]
+    },
     "Innovation und Projektmanagement/000000_Kurz_IPM.pdf": {
       "sha256": "dc4b5d4b72c8a75fd4248cbd0efa7ce21b771101fe259f184546fc30b11af961",
       "verarbeitet_am": "2026-10-18",
