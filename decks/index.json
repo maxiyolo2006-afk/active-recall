@@ -2,6 +2,15 @@
   "generiert": "2026-10-18",
   "decks": [
     {
+      "fach": "innovation-und-projektmanagement",
+      "titel": "Innovations- und Projektmanagement",
+      "datei": "innovation-und-projektmanagement.json",
+      "anzahl": 6,
+      "kapitel": [
+        "Modulvorstellung"
+      ]
+    },
+    {
       "fach": "tma",
       "titel": "Technische Mechanik A",
       "datei": "tma.json",

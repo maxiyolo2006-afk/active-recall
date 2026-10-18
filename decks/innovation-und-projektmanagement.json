@@ -1,0 +1,60 @@
+{
+  "fach": "innovation-und-projektmanagement",
+  "titel": "Innovations- und Projektmanagement",
+  "karten": [
+    {
+      "id": "innovation-und-projektmanagement-einfuehrung-001",
+      "frage": "Vergleiche Innovationsmanagement und Projektmanagement: Welches Ergebnis liefert jeweils das eine und das andere?",
+      "antwort": "- **Innovationsmanagement:** „Die **richtigen Dinge** machen“ – entscheiden, *was* entwickelt wird\n- **Projektmanagement:** „Die **Dinge richtig** machen“ – *wie* es effizient umgesetzt wird",
+      "typ": "vergleich",
+      "kapitel": "Modulvorstellung",
+      "quelle": "000000_Kurz_IPM.pdf, Folie 4",
+      "tags": ["innovationsmanagement", "projektmanagement"]
+    },
+    {
+      "id": "innovation-und-projektmanagement-einfuehrung-002",
+      "frage": "Erkläre, welches Ziel Innovations- und Projektmanagement (IPM) zusammen verfolgen und warum man beide braucht.",
+      "antwort": "Ziel IPM: **„Das richtige Produkt richtig entwickeln!“**\nNur Innovationsmanagement → richtige Idee, aber evtl. schlecht umgesetzt. Nur Projektmanagement → effizient umgesetzt, aber evtl. das falsche Produkt. Erfolgreiche Produktentstehung braucht beides.",
+      "typ": "verstaendnis",
+      "kapitel": "Modulvorstellung",
+      "quelle": "000000_Kurz_IPM.pdf, Folie 4",
+      "tags": ["ipm", "produktentstehung"]
+    },
+    {
+      "id": "innovation-und-projektmanagement-einfuehrung-003",
+      "frage": "Welche drei Leitfragen strukturieren die Vorlesung Innovations- und Projektmanagement?",
+      "antwort": "1. Woher kommen Innovationen und wie kann ich sie umsetzen? (Innovationsmanagement)\n2. Wie kann ich Projekte erfolgreich managen? (Projektmanagement)\n3. Wie kann in komplexen Projekten mit Volatilität umgegangen werden? (agiles Vorgehen)",
+      "typ": "verstaendnis",
+      "kapitel": "Modulvorstellung",
+      "quelle": "000000_Kurz_IPM.pdf, Folie 2",
+      "tags": ["ipm", "agil"]
+    },
+    {
+      "id": "innovation-und-projektmanagement-einfuehrung-004",
+      "frage": "Erkläre den didaktischen Aufbau des Moduls IPM und wie die Modulprüfung aussieht.",
+      "antwort": "1. **Unterricht** = Wissensinput (seminaristischer Unterricht mit Skript)\n2. **Selbststudium** = Wissenstransfer der Theorie in die Praxis bzw. das eigene Arbeitsumfeld („Praxis-Check“)\nPrüfung: **„Praxis-Transfer“** – vorlesungsbegleitende Hausarbeit (semesterbegleitende Dokumentation).",
+      "typ": "verstaendnis",
+      "kapitel": "Modulvorstellung",
+      "quelle": "000000_Kurz_IPM.pdf, Folie 7–9 und 14",
+      "tags": ["ipm", "pruefung"]
+    },
+    {
+      "id": "innovation-und-projektmanagement-einfuehrung-005",
+      "frage": "Wie läuft die Bearbeitung der Breakouts in der IPM-Vorlesung ab, und was muss vorher passieren?",
+      "antwort": "Vorher: jede Breakout-Aufgabe **alleine** vorbereiten (Praxisphase, 1 CP ≈ 30 h).\nIn der Vorlesung als Gruppenarbeit:\n1. Gruppenphase 1: Ergebnisse sammeln\n2. Gruppenphase 2: Ergebnisse diskutieren und ordnen\n3. Plenum: Ergebnisse gemeinsam vorstellen",
+      "typ": "verstaendnis",
+      "kapitel": "Modulvorstellung",
+      "quelle": "000000_Kurz_IPM.pdf, Folie 10",
+      "tags": ["ipm", "breakout"]
+    },
+    {
+      "id": "innovation-und-projektmanagement-einfuehrung-006",
+      "frage": "Wie soll eine KI laut Aufgabe „KI als Lerncoach“ in IPM eingesetzt werden – und wie nicht?",
+      "antwort": "Jede Fragestellung ca. 15 min mit einer KI bearbeiten. Die KI soll **nicht die Antwort liefern**, sondern beim **Nachdenken unterstützen** – z. B. mit Praxisbeispielen, Pro- und Contra-Argumenten, unterschiedlichen Meinungen oder als Rollenspiel mit einem Innovations-/Projektmanagementberater.",
+      "typ": "verstaendnis",
+      "kapitel": "Modulvorstellung",
+      "quelle": "000000_Kurz_IPM.pdf, Folie 13",
+      "tags": ["ipm", "ki"]
+    }
+  ]
+}

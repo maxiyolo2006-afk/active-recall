@@ -1,5 +1,18 @@
 {
   "dateien": {
+    "Innovation und Projektmanagement/000000_Kurz_IPM.pdf": {
+      "sha256": "dc4b5d4b72c8a75fd4248cbd0efa7ce21b771101fe259f184546fc30b11af961",
+      "verarbeitet_am": "2026-10-18",
+      "deck": "innovation-und-projektmanagement",
+      "karten": [
+        "innovation-und-projektmanagement-einfuehrung-001",
+        "innovation-und-projektmanagement-einfuehrung-002",
+        "innovation-und-projektmanagement-einfuehrung-003",
+        "innovation-und-projektmanagement-einfuehrung-004",
+        "innovation-und-projektmanagement-einfuehrung-005",
+        "innovation-und-projektmanagement-einfuehrung-006"
+      ]
+    },
     "tma/3_1_Tutorium_TMA_Zug_Druck_Abscherung.pdf": {
       "sha256": "2b6ff5d2e6be2e9f045894fa5bd59cdbc177ecc2076bb9e5289d45daf4bc9d4a",
       "verarbeitet_am": "2026-10-18",
