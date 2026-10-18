@@ -19,6 +19,26 @@
         "tma-zugdruck-012",
         "tma-zugdruck-013"
       ]
+    },
+    "tma/3_2_Tutorium_TMA_Torsion.pdf": {
+      "sha256": "bea2191eb924727dad89bf10b255c6f4b7265e73a9e589195543cd3068d16aa9",
+      "verarbeitet_am": "2026-10-18",
+      "deck": "tma",
+      "karten": [
+        "tma-torsion-001",
+        "tma-torsion-002",
+        "tma-torsion-003",
+        "tma-torsion-004",
+        "tma-torsion-005",
+        "tma-torsion-006",
+        "tma-torsion-007",
+        "tma-torsion-008",
+        "tma-torsion-009",
+        "tma-torsion-010",
+        "tma-torsion-011",
+        "tma-torsion-012",
+        "tma-torsion-013"
+      ]
     }
   }
 }

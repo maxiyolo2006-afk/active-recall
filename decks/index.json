@@ -5,9 +5,10 @@
       "fach": "tma",
       "titel": "Technische Mechanik A",
       "datei": "tma.json",
-      "anzahl": 13,
+      "anzahl": 26,
       "kapitel": [
-        "3.1 Zug, Druck und Abscherung"
+        "3.1 Zug, Druck und Abscherung",
+        "3.2 Torsion"
       ]
     }
   ]
