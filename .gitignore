@@ -1,0 +1,12 @@
+# Unterlagen (Folien/Skripte der Dozenten) NICHT veröffentlichen – nur die Liste der verarbeiteten Dateien
+materialien/*
+!materialien/verarbeitet.json
+
+# Hilfsdateien
+.snapshot/
+.claude/settings.local.json
+__pycache__/
+*.pyc
+desktop.ini
+Thumbs.db
+.DS_Store

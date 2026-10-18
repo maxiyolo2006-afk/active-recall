@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Active Recall</title>
+  <meta name="description" content="Karteikarten mit Spaced Repetition (FSRS) fürs Studium">
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111317" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Recall">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <!-- meistgenutzte Formel-Schriften vorab laden, sonst bleiben Formeln beim ersten Anzeigen kurz unsichtbar -->
+  <link rel="preload" href="vendor/katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="vendor/katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Theme vor dem ersten Zeichnen setzen (kein Aufblitzen)
+    try { var t = localStorage.getItem('ar-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body data-view="home">
+  <main id="app" class="wrap"><p class="muted center">Lade …</p></main>
+
+  <nav id="tabbar" class="tabbar" aria-label="Navigation">
+    <a href="#/" data-tab="home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="14" height="10" rx="2"/><path d="M7 19h12a2 2 0 0 0 2-2V9"/></svg>
+      <span>Fächer</span>
+    </a>
+    <a href="#/statistik" data-tab="statistik">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>
+      <span>Statistik</span>
+    </a>
+    <a href="#/einstellungen" data-tab="einstellungen">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>
+      <span>Einstellungen</span>
+    </a>
+  </nav>
+
+  <script src="vendor/katex/katex.min.js" defer></script>
+  <script src="js/fsrs.js" defer></script>
+  <script src="js/db.js" defer></script>
+  <script src="js/render.js" defer></script>
+  <script src="js/stats.js" defer></script>
+  <script src="js/learn.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Textdateien immer mit LF (die Skripte schreiben LF; verhindert unnötige Diffs unter Windows)
+* text=auto eol=lf
+*.png binary
+*.woff2 binary

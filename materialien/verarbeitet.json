@@ -1,0 +1,24 @@
+{
+  "dateien": {
+    "tma/3_1_Tutorium_TMA_Zug_Druck_Abscherung.pdf": {
+      "sha256": "2b6ff5d2e6be2e9f045894fa5bd59cdbc177ecc2076bb9e5289d45daf4bc9d4a",
+      "verarbeitet_am": "2026-10-18",
+      "deck": "tma",
+      "karten": [
+        "tma-zugdruck-001",
+        "tma-zugdruck-002",
+        "tma-zugdruck-003",
+        "tma-zugdruck-004",
+        "tma-zugdruck-005",
+        "tma-zugdruck-006",
+        "tma-zugdruck-007",
+        "tma-zugdruck-008",
+        "tma-zugdruck-009",
+        "tma-zugdruck-010",
+        "tma-zugdruck-011",
+        "tma-zugdruck-012",
+        "tma-zugdruck-013"
+      ]
+    }
+  }
+}
