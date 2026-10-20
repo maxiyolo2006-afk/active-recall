@@ -64,11 +64,21 @@ Beim Import wird **zusammengeführt**: Pro Karte gewinnt der neuere Stand, keine
 | `Strg` + `Enter` | Aufdecken, während du im Textfeld schreibst |
 | `Esc` | Textfeld verlassen (danach wieder Leertaste) |
 | `1` `2` `3` `4` | Nochmal / Schwer / Gut / Einfach |
-| `U` oder `Strg` + `Z` | Letzte Bewertung rückgängig |
+| `F` | Formel ein-/ausblenden (Rechenaufgaben) |
+| `U` oder `Strg` + `Z` | Letzte Bewertung rückgängig (`Strg` + `Z` beim Zeichnen: letzter Strich) |
 
 - **Lernen:** fällige Karten plus neue Karten bis zum Tageslimit (Standard 20 pro Fach, in den Einstellungen änderbar).
   Unter den Bewertungs-Buttons steht, wann die Karte wiederkommt.
-- **Filter:** in der Fach-Ansicht nach Kapitel und Tags. Gilt für Lernen und Klausurmodus.
+- **Alle Fächer gemischt:** Kachel oben auf der Startseite. Alle Fächer in einer Sitzung, abwechselnd gemischt.
+  Technische Mechanik A ist standardmäßig abgewählt; welche Fächer mitmachen, stellst du in der Kachel ein.
+  Dort wählst du auch die **Kartentypen** (z. B. nur Rechenaufgaben, nur Definitionen oder beides).
+- **Filter:** in der Fach-Ansicht nach Kartentyp, Kapitel und Tags. Gilt für Lernen und Klausurmodus.
+- **Zeichnen (Apple Pencil):** Bei Rechenaufgaben ist die Antwort eine Karo-Zeichenfläche. Stift-Druck ändert die
+  Strichstärke, die Fläche wächst nach unten mit. Sobald einmal der Stift benutzt wurde, zeichnen Finger und Handballen
+  nicht mehr, sondern scrollen. Radierer, Strich zurück, Leeren. Über „Tippen“ kannst du auf das Textfeld umschalten
+  (wird für Rechenaufgaben gemerkt). Nach dem Aufdecken steht deine Zeichnung über der Musterlösung.
+- **Formel anzeigen:** Bei jeder Rechenaufgabe gibt es den Kasten „Formel anzeigen“. Er ist bei jeder neuen Aufgabe
+  wieder aus und zeigt nur die allgemeinen Formeln, nicht die Lösung.
 - **Klausurmodus:** alle (gefilterten) Karten eines Fachs gemischt, ohne Pausen. „Nochmal“ kommt am Ende der Runde wieder.
   Der Wiederholungsplan wird dabei **nicht** verändert.
 - **Statistik:** Lernserie, Karten pro Tag (30 Tage), Trefferquote, Kartenreife, die 10 schwierigsten Karten.

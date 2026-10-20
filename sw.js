@@ -4,7 +4,7 @@
  *   KaTeX und Icons:        zuerst Cache (ändern sich nie)
  * Nach Änderungen an DIESER Datei die Versionsnummer erhöhen.
  */
-const CACHE = 'active-recall-v1';
+const CACHE = 'active-recall-v2';
 const NET_TIMEOUT = 3500; // ms, danach Cache verwenden
 
 const KATEX_FONTS = [
@@ -16,7 +16,7 @@ const KATEX_FONTS = [
 
 const SHELL = [
   './', 'index.html', 'manifest.json', 'css/style.css',
-  'js/fsrs.js', 'js/db.js', 'js/render.js', 'js/stats.js', 'js/learn.js', 'js/app.js',
+  'js/fsrs.js', 'js/db.js', 'js/render.js', 'js/stats.js', 'js/ink.js', 'js/learn.js', 'js/app.js',
   'vendor/katex/katex.min.js', 'vendor/katex/katex.min.css',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
   'decks/index.json',

@@ -1,8 +1,10 @@
 /*
- * Lernsitzung.
- *   Modus "sr":      fällige Karten + neue Karten (Tageslimit), FSRS plant die nächste Wiederholung
+ * Lernsitzung – für ein Fach oder für „Alle Fächer gemischt“ (scope = App.MIX).
+ *   Modus "sr":      fällige Karten + neue Karten (Tageslimit pro Fach), FSRS plant die nächste Wiederholung
  *   Modus "klausur": alle (gefilterten) Karten gemischt; "Nochmal" kommt am Ende der Runde wieder;
  *                    der FSRS-Plan wird NICHT verändert, Bewertungen zählen nur für die Statistik
+ * Karten mit "formel": Kasten „Formel anzeigen“, bei jeder Karte wieder aus.
+ * Antwort: tippen oder zeichnen (ink.js); Rechenaufgaben starten standardmäßig mit der Zeichenfläche.
  */
 (function () {
   'use strict';
@@ -14,8 +16,10 @@
     { g: 3, key: 'good', label: 'Gut' },
     { g: 4, key: 'easy', label: 'Einfach' },
   ];
+  const INPUT_KEY = 'ar-eingabe-rechnung'; // gemerkte Eingabeart für Rechenaufgaben: 'draw' | 'type'
 
-  let S = null; // aktuelle Sitzung
+  let S = null;   // aktuelle Sitzung
+  let pad = null; // aktive Zeichenfläche
 
   function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -41,17 +45,38 @@
     return out;
   }
 
-  function start(fach, mode) {
+  /** Abwechselnd aus jeder Gruppe eine Karte (neue Karten im Mix: Fächer im Wechsel, Reihenfolge je Fach bleibt). */
+  function roundRobin(groups) {
+    const out = [];
+    for (let i = 0; groups.some((g) => i < g.length); i++) groups.forEach((g) => { if (i < g.length) out.push(g[i]); });
+    return out;
+  }
+
+  function rechnungInput() {
+    try { return localStorage.getItem(INPUT_KEY) === 'type' ? 'type' : 'draw'; } catch (e) { return 'draw'; }
+  }
+
+  function backHref() {
+    return S.mix ? '#/mix' : '#/fach/' + encodeURIComponent(S.scope);
+  }
+
+  function destroyPad() {
+    if (pad) { pad.destroy(); pad = null; }
+  }
+
+  function start(scope, mode) {
     const $app = App.$app;
-    const deck = App.deck(fach);
-    if (!deck) {
-      $app.innerHTML = `<section class="panel"><p>Fach „${esc(fach)}“ nicht gefunden.</p><a class="btn" href="#/">Zur Startseite</a></section>`;
+    const mix = scope === App.MIX;
+    destroyPad();
+    if (!mix && !App.deck(scope)) {
+      S = null;
+      $app.innerHTML = `<section class="panel"><p>Fach „${esc(scope)}“ nicht gefunden.</p><a class="btn" href="#/">Zur Startseite</a></section>`;
       return;
     }
-    const cards = App.filtered(fach);
+    const cards = App.sessionCards(scope);
     const now = Date.now();
     S = {
-      fach, mode, main: [], learning: [], current: null, preview: null,
+      scope, mix, mode, main: [], learning: [], current: null, preview: null,
       revealed: false, mine: '', busy: false, undo: [], done: 0, started: now,
       firstTry: new Map(), total: 0,
     };
@@ -60,26 +85,39 @@
       S.total = S.main.length;
     } else {
       const due = [];
-      const news = [];
+      const newsBy = new Map();
       for (const k of cards) {
         const p = App.progress.get(k.id);
-        if (!p || p.state === FSRS.State.New) news.push(k.id);
-        else if (p.state === FSRS.State.Review) { if (p.due <= now) due.push(k.id); }
+        if (!p || p.state === FSRS.State.New) {
+          if (!newsBy.has(k.fach)) newsBy.set(k.fach, []);
+          newsBy.get(k.fach).push(k.id);
+        } else if (p.state === FSRS.State.Review) { if (p.due <= now) due.push(k.id); }
         else S.learning.push({ id: k.id, due: p.due });
       }
-      const left = Math.max(0, App.settings.newPerDay - App.introducedToday(fach));
-      S.main = interleave(shuffle(due), news.slice(0, left));
+      const news = roundRobin([...newsBy].map(([fach, ids]) => ids.slice(0, App.newLeft(fach))));
+      S.main = interleave(shuffle(due), news);
     }
     advance();
   }
 
   function stop() {
+    destroyPad();
     S = null;
   }
 
-  function advance() {
+  /** Alles, was pro Karte frisch beginnt. */
+  function resetCard() {
     S.revealed = false;
     S.mine = '';
+    S.showFormel = false;
+    S.formelUsed = false;
+    S.ink = Ink.newState();
+    S.inkImg = null;
+    const k = S.current && App.byId.get(S.current);
+    S.input = k && k.typ === 'rechnung' ? rechnungInput() : 'type';
+  }
+
+  function advance() {
     const now = Date.now();
     S.learning.sort((a, b) => a.due - b.due);
     let id = null;
@@ -87,6 +125,7 @@
     else if (S.main.length) id = S.main.shift();
     else if (S.learning.length) id = S.learning.shift().id; // Lernschritte vorziehen, statt zu warten
     S.current = id;
+    resetCard();
     if (!id) { renderFinish(); return; }
     preparePreview();
     render();
@@ -116,49 +155,80 @@
   }
 
   function topbar() {
-    const back = '#/fach/' + encodeURIComponent(S.fach);
+    const title = S.mode === 'klausur' ? 'Klausurmodus' + (S.mix ? ' · alle Fächer' : '')
+      : S.mix ? 'Alle Fächer' : App.deck(S.scope).titel;
     return `
       <div class="learn-top">
-        <a class="icon-btn" href="${back}" aria-label="Sitzung beenden" title="Beenden">✕</a>
-        <div class="learn-mode">${S.mode === 'klausur' ? 'Klausurmodus' : esc(App.deck(S.fach).titel)}</div>
+        <a class="icon-btn" href="${backHref()}" aria-label="Sitzung beenden" title="Beenden">✕</a>
+        <div class="learn-mode">${esc(title)}</div>
         ${counters()}
         <button class="icon-btn" data-learn="undo" aria-label="Letzte Bewertung rückgängig" title="Rückgängig (U)" ${S.undo.length ? '' : 'disabled'}>↶</button>
       </div>`;
   }
 
   function render() {
+    destroyPad();
     const k = App.byId.get(S.current);
     const $app = App.$app;
     if (!k) { advance(); return; }
-    const meta = `<div class="q-meta"><span class="badge t-${esc(k.typ)}">${esc(App.TYP_LABEL[k.typ] || k.typ)}</span><span>${esc(k.kapitel || '')}</span></div>`;
+    const deck = S.mix ? App.deck(k.fach) : null;
+    const meta = `<div class="q-meta"><span class="badge t-${esc(k.typ)}">${esc(App.TYP_LABEL[k.typ] || k.typ)}</span>${deck ? `<span class="q-fach">${esc(deck.titel)}</span>` : ''}<span>${esc(k.kapitel || '')}</span></div>`;
     const question = `<article class="qcard">${meta}<div class="q-text rich">${rich(k.frage)}</div></article>`;
+    const formel = k.formel ? `
+      <div class="formel">
+        <label class="formel-toggle"><input type="checkbox" data-learn="formel"${S.showFormel ? ' checked' : ''}> Formel anzeigen <kbd class="kbd-hint">F</kbd></label>
+        <div class="formel-box rich"${S.showFormel ? '' : ' hidden'}>${rich(k.formel)}</div>
+      </div>` : '';
 
     if (!S.revealed) {
+      const seg = (v, label) => `<button data-learn="input" data-value="${v}" class="${S.input === v ? 'on' : ''}" aria-pressed="${S.input === v}">${label}</button>`;
       $app.innerHTML = `
         <div class="learn">
           ${topbar()}
           ${question}
-          <div class="answer-area">
-            <label class="lbl" for="mine">Deine Antwort <span class="muted">(optional)</span></label>
+          ${formel}
+          <div class="answer-area" data-input="${S.input}">
+            <div class="answer-head">
+              <span class="lbl">Deine Antwort <span class="muted">(optional)</span></span>
+              <div class="seg small" role="group" aria-label="Eingabeart">${seg('draw', '✎ Zeichnen')}${seg('type', 'Tippen')}</div>
+            </div>
+            <div class="ink">
+              <div class="ink-tools" role="toolbar" aria-label="Zeichenwerkzeuge">
+                <button data-ink="pen" aria-pressed="true" class="on">Stift</button>
+                <button data-ink="eraser" aria-pressed="false">Radierer</button>
+                <span class="ink-gap"></span>
+                <button data-ink="undo" title="Letzten Strich zurück" aria-label="Letzten Strich zurück">↶</button>
+                <button data-ink="clear">Leeren</button>
+              </div>
+              <div class="ink-surface"><canvas aria-label="Zeichenfläche für deinen Rechenweg"></canvas></div>
+            </div>
             <textarea id="mine" rows="4" placeholder="Aus dem Kopf aufschreiben … Formeln mit $…$" autocomplete="off" autocapitalize="sentences">${esc(S.mine)}</textarea>
             <button class="btn primary big" data-learn="reveal">Aufdecken</button>
-            <div class="kbd-hint">Leertaste aufdecken · im Textfeld <kbd>Strg</kbd>+<kbd>Enter</kbd></div>
+            <div class="kbd-hint">Leertaste aufdecken · im Textfeld <kbd>Strg</kbd>+<kbd>Enter</kbd>${k.formel ? ' · <kbd>F</kbd> Formel' : ''}</div>
           </div>
         </div>`;
+      pad = Ink.create($app.querySelector('.ink'), S.ink);
       return;
     }
 
     const mine = S.mine.trim();
+    const img = S.inkImg;
     const buttons = R.map((r) => {
       const sub = S.mode === 'sr' ? FSRS.fmtInterval(S.preview[r.g], Date.now()) : (r.g === 1 ? 'kommt wieder' : '');
       return `<button class="rate ${r.key}" data-rate="${r.g}"><span>${r.label}</span><small>${esc(sub)}</small></button>`;
     }).join('');
+    const minePane = mine || img ? `
+      <section class="pane mine"><h4>Deine Antwort</h4>
+        ${img ? `<img class="ink-img" src="${img.src}" width="${Math.round(img.w)}" height="${Math.round(img.h)}" alt="Deine Zeichnung">` : ''}
+        ${mine ? `<div class="rich">${rich(mine)}</div>` : ''}
+      </section>` : '';
     $app.innerHTML = `
       <div class="learn">
         ${topbar()}
         ${question}
-        <div class="compare${mine ? ' two' : ''}">
-          ${mine ? `<section class="pane mine"><h4>Deine Antwort</h4><div class="rich">${rich(mine)}</div></section>` : ''}
+        ${formel}
+        <div class="compare${minePane ? ' two' : ''}${img ? ' has-ink' : ''}">
+          ${minePane}
           <section class="pane solution"><h4>Musterlösung</h4><div class="rich">${rich(k.antwort)}</div>
             <div class="src">Quelle: ${esc(k.quelle || '–')}</div></section>
         </div>
@@ -166,26 +236,29 @@
         <div class="kbd-hint">Tasten <kbd>1</kbd>–<kbd>4</kbd> bewerten · <kbd>U</kbd> rückgängig</div>
       </div>`;
     const sol = $app.querySelector('.compare');
-    if (sol && window.innerWidth < 700) sol.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    if (sol && (img || window.innerWidth < 700)) sol.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 
   function renderFinish() {
+    destroyPad();
     const $app = App.$app;
     const mins = Math.max(1, Math.round((Date.now() - S.started) / 60000));
+    const back = backHref();
+    const backLabel = S.mix ? 'Zurück zur Auswahl' : 'Zurück zum Fach';
     let body;
     if (S.mode === 'klausur') {
       const known = [...S.firstTry.values()].filter(Boolean).length;
       const pct = S.total ? Math.round(known / S.total * 100) : 0;
       body = `<p><b>${known} von ${S.total}</b> Karten beim ersten Versuch gewusst (${pct} %).</p>
         <div class="btn-row center">
-          <a class="btn primary" href="#/klausur/${encodeURIComponent(S.fach)}" data-learn="again-round">Noch eine Runde</a>
-          <a class="btn" href="#/fach/${encodeURIComponent(S.fach)}">Zurück zum Fach</a>
+          <a class="btn primary" href="#/klausur/${encodeURIComponent(S.scope)}" data-learn="again-round">Noch eine Runde</a>
+          <a class="btn" href="${back}">${backLabel}</a>
         </div>`;
     } else {
-      const c = App.counts(S.fach, App.filtered(S.fach));
+      const c = S.mix ? App.mixCounts() : App.counts(S.scope, App.filtered(S.scope));
       body = `<p>${S.done} Bewertungen in ${mins} min.</p>
         <p class="muted">Nächste fällige Wiederholung: ${App.fmtWhen(c.nextDue)}${c.neu && !c.newToday ? '<br>Tageslimit für neue Karten erreicht.' : ''}</p>
-        <div class="btn-row center"><a class="btn primary" href="#/fach/${encodeURIComponent(S.fach)}">Zurück zum Fach</a></div>`;
+        <div class="btn-row center"><a class="btn primary" href="${back}">${backLabel}</a></div>`;
     }
     $app.innerHTML = `
       <div class="learn">
@@ -193,7 +266,7 @@
         <section class="panel done center">
           <div class="done-icon" aria-hidden="true">✓</div>
           <h2>${S.done ? 'Geschafft!' : 'Nichts zu tun'}</h2>
-          ${S.done || S.mode === 'klausur' ? body : '<p class="muted">Keine fälligen oder neuen Karten mit dem aktuellen Filter.</p><div class="btn-row center"><a class="btn" href="#/fach/' + encodeURIComponent(S.fach) + '">Zurück zum Fach</a></div>'}
+          ${S.done || S.mode === 'klausur' ? body : `<p class="muted">Keine fälligen oder neuen Karten mit ${S.mix ? 'der aktuellen Auswahl' : 'dem aktuellen Filter'}.</p><div class="btn-row center"><a class="btn" href="${back}">${backLabel}</a></div>`}
         </section>
       </div>`;
   }
@@ -203,14 +276,42 @@
     const ta = document.getElementById('mine');
     S.mine = ta ? ta.value : '';
     if (ta) ta.blur();
+    S.inkImg = pad ? pad.snapshot() : null;
     S.revealed = true;
     render();
+  }
+
+  function setFormel(on) {
+    if (!S) return;
+    S.showFormel = on;
+    if (on) S.formelUsed = true;
+    const box = document.querySelector('.formel-box');
+    const cb = document.querySelector('[data-learn="formel"]');
+    if (box) box.hidden = !on;
+    if (cb) cb.checked = on;
+  }
+
+  function setInput(v) {
+    if (!S || S.revealed) return;
+    S.input = v;
+    const area = document.querySelector('.answer-area');
+    if (area) area.dataset.input = v;
+    document.querySelectorAll('[data-learn="input"]').forEach((b) => {
+      const on = b.dataset.value === v;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    const k = App.byId.get(S.current);
+    if (k && k.typ === 'rechnung') {
+      try { localStorage.setItem(INPUT_KEY, v); } catch (e) { /* egal */ }
+    }
   }
 
   async function rate(g) {
     if (!S || !S.revealed || S.busy || !S.current) return;
     S.busy = true;
     const id = S.current;
+    const k = App.byId.get(id);
     const now = Date.now();
     const prev = App.progress.get(id) || null;
     const snap = {
@@ -218,9 +319,10 @@
       hadFirst: S.firstTry.has(id), first: S.firstTry.get(id),
     };
     const entry = {
-      id: App.uid(), cardId: id, fach: S.fach, ts: now, rating: g, mode: S.mode,
+      id: App.uid(), cardId: id, fach: k ? k.fach : S.scope, ts: now, rating: g, mode: S.mode,
       state: prev ? prev.state : 0, wasNew: !prev || prev.state === 0,
     };
+    if (S.formelUsed) entry.formelHilfe = true;
     let card = null;
     if (S.mode === 'sr') {
       card = Object.assign({}, S.preview[g], { id });
@@ -273,8 +375,7 @@
     S.done = u.done;
     if (u.hadFirst) S.firstTry.set(u.id, u.first); else S.firstTry.delete(u.id);
     S.current = u.id;
-    S.revealed = false;
-    S.mine = '';
+    resetCard();
     preparePreview();
     S.busy = false;
     render();
@@ -290,13 +391,24 @@
     if (b.dataset.rate) rate(parseInt(b.dataset.rate, 10));
     else if (b.dataset.learn === 'reveal') reveal();
     else if (b.dataset.learn === 'undo') undo();
-    else if (b.dataset.learn === 'again-round') { e.preventDefault(); start(S.fach, 'klausur'); }
+    else if (b.dataset.learn === 'input') setInput(b.dataset.value);
+    else if (b.dataset.learn === 'again-round') { e.preventDefault(); start(S.scope, 'klausur'); }
+  });
+
+  document.addEventListener('change', (e) => {
+    if (S && e.target.matches('[data-learn="formel"]')) setFormel(e.target.checked);
   });
 
   document.addEventListener('keydown', (e) => {
     if (!S || e.altKey) return;
-    const inText = e.target.matches && e.target.matches('textarea, input, select');
-    if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey) && !inText) { e.preventDefault(); undo(); return; }
+    const inText = e.target.matches && e.target.matches('textarea, select, input:not([type="checkbox"])');
+    if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey) && !inText) {
+      e.preventDefault();
+      // Vor dem Aufdecken auf der Zeichenfläche: letzten Strich zurück, sonst letzte Bewertung
+      if (pad && !S.revealed && S.input === 'draw' && (S.ink.strokes.length || S.ink.cleared)) pad.undo();
+      else undo();
+      return;
+    }
     if (e.ctrlKey || e.metaKey) {
       if (e.key === 'Enter' && !S.revealed) { e.preventDefault(); reveal(); }
       return;
@@ -311,10 +423,12 @@
     } else if (S.revealed && /^[1-4]$/.test(e.key)) {
       e.preventDefault();
       rate(parseInt(e.key, 10));
+    } else if (e.key === 'f' || e.key === 'F') {
+      if (document.querySelector('[data-learn="formel"]')) { e.preventDefault(); setFormel(!S.showFormel); }
     } else if (e.key === 'u' || e.key === 'U') {
       undo();
     } else if (e.key === 'Escape') {
-      location.hash = '#/fach/' + encodeURIComponent(S.fach);
+      location.hash = backHref();
     }
   });
 

@@ -32,6 +32,7 @@ SNAP = ROOT / ".snapshot"
 
 TYPEN = {"definition", "verstaendnis", "rechnung", "vergleich"}
 FELDER = ["id", "frage", "antwort", "typ", "kapitel", "quelle", "tags"]
+OPTIONAL = ["formel"]  # Formelhilfe bei Rechenkarten (darf bei bestehenden Karten nachgetragen werden)
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*-\d{3,}$")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 JA_NEIN = re.compile(r"^(ist|sind|gibt|kann|können|hat|haben|wird|werden|muss|müssen|darf|stimmt|trifft|is|are|does|do|can|will)\b", re.I)
@@ -205,7 +206,7 @@ def pruefe_deck(pfad, fehler, warnungen, alle_ids):
         fehlend = [f for f in FELDER if f not in k]
         if fehlend:
             fehler.append(f"{wo}: Felder fehlen: {', '.join(fehlend)}")
-        unbekannt = [f for f in k if f not in FELDER]
+        unbekannt = [f for f in k if f not in FELDER and f not in OPTIONAL]
         if unbekannt:
             warnungen.append(f"{wo}: unbekannte Felder: {', '.join(unbekannt)}")
         if not isinstance(kid, str) or not ID_RE.match(kid):
@@ -223,7 +224,11 @@ def pruefe_deck(pfad, fehler, warnungen, alle_ids):
             fehler.append(f"{wo}: typ \"{k['typ']}\" – erlaubt: {', '.join(sorted(TYPEN))}")
         if "tags" in k and (not isinstance(k["tags"], list) or not all(isinstance(t, str) and t for t in k["tags"])):
             fehler.append(f"{wo}: \"tags\" muss eine Liste von Texten sein")
-        for feld in ("frage", "antwort"):
+        if "formel" in k and (not isinstance(k["formel"], str) or not k["formel"].strip()):
+            fehler.append(f"{wo}: \"formel\" muss ein nicht-leerer Text sein")
+        if k.get("typ") == "rechnung" and "formel" not in k:
+            warnungen.append(f"{wo}: Rechenkarte ohne \"formel\" (Formelhilfe fehlt)")
+        for feld in ("frage", "antwort", "formel"):
             text = k.get(feld)
             if not isinstance(text, str):
                 continue
@@ -258,7 +263,11 @@ def vergleiche_snapshot(fehler):
             if i >= len(jetzt):
                 fehler.append(f"{alt_pfad.name}: Karte {k_alt.get('id')} fehlt (Karten wurden gelöscht)")
                 break
-            if jetzt[i] != k_alt:
+            vergleich = jetzt[i]
+            if isinstance(vergleich, dict) and "formel" not in k_alt and "formel" in vergleich:
+                # Nachgetragene Formelhilfe ist erlaubt – sie ändert nichts am Lernfortschritt
+                vergleich = {f: w for f, w in vergleich.items() if f != "formel"}
+            if vergleich != k_alt:
                 was = "verändert" if jetzt[i].get("id") == k_alt.get("id") else f"ersetzt/verschoben durch {jetzt[i].get('id')}"
                 fehler.append(f"{alt_pfad.name}: bestehende Karte {k_alt.get('id')} wurde {was} – nur anhängen erlaubt!")
         neu_pro_deck[alt_pfad.stem] = max(0, len(jetzt) - len(alt))

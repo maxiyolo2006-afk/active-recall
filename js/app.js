@@ -54,30 +54,76 @@
   App.kapitelOf = (deck) => [...new Set(deck.karten.map((k) => k.kapitel).filter(Boolean))];
   App.tagsOf = (deck) => [...new Set(deck.karten.flatMap((k) => k.tags || []))].sort((a, b) => a.localeCompare(b, 'de'));
 
+  App.TYP_ORDER = ['definition', 'verstaendnis', 'rechnung', 'vergleich'];
+  App.TYP_PLURAL = { definition: 'Definitionen', verstaendnis: 'Verständnis', rechnung: 'Rechenaufgaben', vergleich: 'Vergleiche' };
+  App.typenOf = (karten) => App.TYP_ORDER.filter((t) => karten.some((k) => k.typ === t));
+
   App.getFilter = (fach) => {
     let f = null;
     try { f = JSON.parse(localStorage.getItem('ar-filter-' + fach) || 'null'); } catch (e) { /* egal */ }
     const deck = App.deck(fach);
-    if (!f || !deck) return { kapitel: [], tags: [] };
+    if (!f || !deck) return { kapitel: [], tags: [], typen: [] };
     // Filterwerte, die es im Deck nicht (mehr) gibt, ignorieren
     const kap = App.kapitelOf(deck);
     const tags = App.tagsOf(deck);
+    const typen = App.typenOf(deck.karten);
     return {
       kapitel: (f.kapitel || []).filter((k) => kap.includes(k)),
       tags: (f.tags || []).filter((t) => tags.includes(t)),
+      typen: (f.typen || []).filter((t) => typen.includes(t)),
     };
   };
   App.setFilter = (fach, f) => {
     try { localStorage.setItem('ar-filter-' + fach, JSON.stringify(f)); } catch (e) { /* egal */ }
   };
+  App.hasFilter = (f) => !!(f.kapitel.length || f.tags.length || f.typen.length);
   App.filtered = (fach) => {
     const deck = App.deck(fach);
     if (!deck) return [];
     const f = App.getFilter(fach);
     return deck.karten.filter((k) =>
       (!f.kapitel.length || f.kapitel.includes(k.kapitel)) &&
-      (!f.tags.length || (k.tags || []).some((t) => f.tags.includes(t))));
+      (!f.tags.length || (k.tags || []).some((t) => f.tags.includes(t))) &&
+      (!f.typen.length || f.typen.includes(k.typ)));
   };
+
+  /* ---------- Modus „Alle Fächer gemischt“ ---------- */
+
+  App.MIX = '_mix'; // kann nie ein Fach-Kürzel sein (Kürzel bestehen nur aus a-z0-9-)
+  const MIX_DEFAULT_OHNE = ['tma']; // TMA ist abgeschlossen → standardmäßig nicht im Mix
+
+  /** { ohne: [Fach-Kürzel, die NICHT mitlernen], typen: [gewählte Kartentypen; leer = alle] } */
+  App.getMix = () => {
+    let m = null;
+    try { m = JSON.parse(localStorage.getItem('ar-mix') || 'null'); } catch (e) { /* egal */ }
+    m = m || { ohne: MIX_DEFAULT_OHNE.slice(), typen: [] };
+    return { ohne: m.ohne || [], typen: (m.typen || []).filter((t) => App.TYP_ORDER.includes(t)) };
+  };
+  App.setMix = (m) => {
+    try { localStorage.setItem('ar-mix', JSON.stringify(m)); } catch (e) { /* egal */ }
+  };
+  App.mixDecks = () => {
+    const m = App.getMix();
+    return App.decks.filter((d) => !m.ohne.includes(d.fach));
+  };
+  App.mixCardsOf = (deck) => {
+    const m = App.getMix();
+    return deck.karten.filter((k) => !m.typen.length || m.typen.includes(k.typ));
+  };
+  App.mixCards = () => App.mixDecks().flatMap((d) => App.mixCardsOf(d));
+  /** Summe der Zähler über alle Mix-Fächer (Tageslimit für neue Karten gilt pro Fach). */
+  App.mixCounts = () => {
+    const sum = { due: 0, learning: 0, neu: 0, newToday: 0, total: 0, nextDue: Infinity };
+    App.mixDecks().forEach((d) => {
+      const c = App.counts(d.fach, App.mixCardsOf(d));
+      ['due', 'learning', 'neu', 'newToday', 'total'].forEach((key) => { sum[key] += c[key]; });
+      sum.nextDue = Math.min(sum.nextDue, c.nextDue);
+    });
+    return sum;
+  };
+  /** Karten einer Lernsitzung: ein Fach (mit dessen Filter) oder der Mix. */
+  App.sessionCards = (scope) => (scope === App.MIX ? App.mixCards() : App.filtered(scope));
+  App.newLeft = (fach) => Math.max(0, App.settings.newPerDay - App.introducedToday(fach));
 
   App.introducedToday = (fach) => {
     const today = FSRS.dayKey(Date.now());
@@ -98,8 +144,7 @@
         if (p.due <= now) due++; else nextDue = Math.min(nextDue, p.due);
       } else learning++;
     }
-    const newLeft = Math.max(0, App.settings.newPerDay - App.introducedToday(fach));
-    return { due, learning, neu, newToday: Math.min(neu, newLeft), total: cards.length, nextDue };
+    return { due, learning, neu, newToday: Math.min(neu, App.newLeft(fach)), total: cards.length, nextDue };
   };
 
   App.fmtWhen = (ts) => {
@@ -149,9 +194,29 @@
       return;
     }
     const s = Stats.summary();
+    let mixTile = '';
+    if (App.decks.length > 1) {
+      const m = App.getMix();
+      const mc = App.mixCounts();
+      const mixTodo = mc.due + mc.learning + mc.newToday;
+      const ohne = App.decks.filter((d) => m.ohne.includes(d.fach)).map((d) => d.titel);
+      const typInfo = m.typen.length ? ' · nur ' + m.typen.map((t) => App.TYP_PLURAL[t]).join(', ') : '';
+      mixTile = `
+        <div class="deck-tile mix-tile">
+          <a class="deck-main" href="#/mix">
+            <div class="deck-title">Alle Fächer gemischt</div>
+            <div class="deck-meta">${App.mixDecks().length} Fächer${ohne.length ? ' · ohne ' + esc(ohne.join(', ')) : ''}${esc(typInfo)}</div>
+            <div class="pills">
+              <span class="pill due">${mc.due + mc.learning} fällig</span>
+              <span class="pill new">${mc.newToday} neu</span>
+            </div>
+          </a>
+          <a class="btn primary deck-go${mixTodo ? '' : ' disabled'}" href="#/lernen/${App.MIX}" ${mixTodo ? '' : 'aria-disabled="true" tabindex="-1"'}>${mixTodo ? 'Lernen' : 'Erledigt'}</a>
+        </div>`;
+    }
     const tiles = App.decks.map((d) => {
       const f = App.getFilter(d.fach);
-      const filtered = f.kapitel.length || f.tags.length;
+      const filtered = App.hasFilter(f);
       const c = App.counts(d.fach, App.filtered(d.fach));
       const todo = c.due + c.learning + c.newToday;
       return `
@@ -172,6 +237,7 @@
         <div class="hero-item">${App.flame}<b>${s.streak}</b><span>${s.streak === 1 ? 'Tag' : 'Tage'} Serie</span></div>
         <div class="hero-item"><b>${s.today}</b><span>heute gelernt</span></div>
       </section>
+      ${mixTile ? `<div class="deck-list mix-list">${mixTile}</div>` : ''}
       <h2 class="section-title">Fächer</h2>
       ${App.decks.length ? `<div class="deck-list">${tiles}</div>` : `
         <section class="panel">
@@ -187,10 +253,11 @@
     const cards = App.filtered(fach);
     const c = App.counts(fach, cards);
     const todo = c.due + c.learning + c.newToday;
-    const chip = (kind, value, on) =>
-      `<button class="chip${on ? ' on' : ''}" data-action="toggle-filter" data-kind="${kind}" data-value="${esc(value)}" aria-pressed="${on}">${esc(value)}</button>`;
+    const chip = (kind, value, on, label) =>
+      `<button class="chip${on ? ' on' : ''}" data-action="toggle-filter" data-kind="${kind}" data-value="${esc(value)}" aria-pressed="${on}">${esc(label || value)}</button>`;
     const kap = App.kapitelOf(deck);
     const tags = App.tagsOf(deck);
+    const typen = App.typenOf(deck.karten);
     $app.innerHTML = `
       <a class="back" href="#/">‹ Fächer</a>
       <h1 class="page-title">${esc(deck.titel)}</h1>
@@ -198,7 +265,7 @@
         <div><b>${c.due + c.learning}</b><span>fällig</span></div>
         <div><b>${c.newToday}</b><span>neu heute</span></div>
         <div><b>${c.neu}</b><span>ungelernt</span></div>
-        <div><b>${c.total}</b><span>${f.kapitel.length || f.tags.length ? 'gefiltert' : 'gesamt'}</span></div>
+        <div><b>${c.total}</b><span>${App.hasFilter(f) ? 'gefiltert' : 'gesamt'}</span></div>
       </div>
       <div class="actions">
         ${todo ? `<a class="btn primary big" href="#/lernen/${encodeURIComponent(fach)}">Lernen · ${todo}</a>`
@@ -206,9 +273,10 @@
         <a class="btn big${cards.length ? '' : ' disabled'}" href="#/klausur/${encodeURIComponent(fach)}">Klausurmodus · ${cards.length} Karten</a>
       </div>
       <section class="filters">
+        ${typen.length > 1 ? `<h3>Kartentyp</h3><div class="chips">${typen.map((t) => chip('typen', t, f.typen.includes(t), App.TYP_PLURAL[t])).join('')}</div>` : ''}
         ${kap.length ? `<h3>Kapitel</h3><div class="chips">${kap.map((k) => chip('kapitel', k, f.kapitel.includes(k))).join('')}</div>` : ''}
         ${tags.length ? `<h3>Tags</h3><div class="chips">${tags.map((t) => chip('tags', t, f.tags.includes(t))).join('')}</div>` : ''}
-        ${f.kapitel.length || f.tags.length ? '<button class="btn small ghost" data-action="clear-filter">Filter zurücksetzen</button>' : ''}
+        ${App.hasFilter(f) ? '<button class="btn small ghost" data-action="clear-filter">Filter zurücksetzen</button>' : ''}
       </section>
       <details class="card-list" data-fach="${esc(fach)}">
         <summary>Karten ansehen (${cards.length})</summary>
@@ -229,6 +297,46 @@
           </details>`;
       }).join('');
     });
+  }
+
+  function viewMix() {
+    const m = App.getMix();
+    const cards = App.mixCards();
+    const c = App.mixCounts();
+    const todo = c.due + c.learning + c.newToday;
+    const alleKarten = App.decks.flatMap((d) => d.karten);
+    const mixDeckKarten = App.mixDecks().flatMap((d) => d.karten);
+    const fachChips = App.decks.map((d) => {
+      const on = !m.ohne.includes(d.fach);
+      return `<button class="chip${on ? ' on' : ''}" data-action="toggle-mix-fach" data-value="${esc(d.fach)}" aria-pressed="${on}">${esc(d.titel)} <small>${d.karten.length}</small></button>`;
+    }).join('');
+    const typChips = App.typenOf(alleKarten).map((t) => {
+      const on = m.typen.includes(t);
+      const n = mixDeckKarten.filter((k) => k.typ === t).length;
+      return `<button class="chip${on ? ' on' : ''}" data-action="toggle-mix-typ" data-value="${t}" aria-pressed="${on}">${App.TYP_PLURAL[t]} <small>${n}</small></button>`;
+    }).join('');
+    $app.innerHTML = `
+      <a class="back" href="#/">‹ Fächer</a>
+      <h1 class="page-title">Alle Fächer gemischt</h1>
+      <div class="stat-grid">
+        <div><b>${c.due + c.learning}</b><span>fällig</span></div>
+        <div><b>${c.newToday}</b><span>neu heute</span></div>
+        <div><b>${c.neu}</b><span>ungelernt</span></div>
+        <div><b>${c.total}</b><span>im Mix</span></div>
+      </div>
+      <div class="actions">
+        ${todo ? `<a class="btn primary big" href="#/lernen/${App.MIX}">Lernen · ${todo}</a>`
+          : `<div class="panel muted center">${cards.length ? 'Für heute erledigt. Nächste Wiederholung: ' + App.fmtWhen(c.nextDue) + (c.neu ? ' · Tageslimit für neue Karten erreicht' : '') : 'Keine Karten ausgewählt.'}</div>`}
+        <a class="btn big${cards.length ? '' : ' disabled'}" href="#/klausur/${App.MIX}">Klausurmodus · ${cards.length} Karten</a>
+      </div>
+      <section class="filters">
+        <h3>Kartentyp</h3>
+        <div class="chips">${typChips}</div>
+        <p class="muted small">${m.typen.length ? 'Nur die markierten Typen kommen dran.' : 'Nichts markiert = alle Typen.'}</p>
+        <h3>Fächer</h3>
+        <div class="chips">${fachChips}</div>
+        <p class="muted small">Die Kapitel- und Tag-Filter der einzelnen Fächer gelten hier nicht. Das Limit für neue Karten gilt pro Fach.</p>
+      </section>`;
   }
 
   async function viewSettings() {
@@ -282,7 +390,8 @@
           <tr><td><kbd>Strg</kbd>+<kbd>Enter</kbd></td><td>Aufdecken aus dem Textfeld</td></tr>
           <tr><td><kbd>Esc</kbd></td><td>Textfeld verlassen</td></tr>
           <tr><td><kbd>1</kbd>–<kbd>4</kbd></td><td>Nochmal / Schwer / Gut / Einfach</td></tr>
-          <tr><td><kbd>U</kbd> oder <kbd>Strg</kbd>+<kbd>Z</kbd></td><td>Letzte Bewertung rückgängig</td></tr>
+          <tr><td><kbd>F</kbd></td><td>Formel ein-/ausblenden (Rechenaufgaben)</td></tr>
+          <tr><td><kbd>U</kbd> oder <kbd>Strg</kbd>+<kbd>Z</kbd></td><td>Letzte Bewertung rückgängig (<kbd>Strg</kbd>+<kbd>Z</kbd> beim Zeichnen: letzter Strich)</td></tr>
         </table>
       </section>
 
@@ -341,8 +450,15 @@
       App.setFilter(fach, f);
       viewDeck(fach);
     } else if (a === 'clear-filter') {
-      App.setFilter(currentArg(), { kapitel: [], tags: [] });
+      App.setFilter(currentArg(), { kapitel: [], tags: [], typen: [] });
       viewDeck(currentArg());
+    } else if (a === 'toggle-mix-fach' || a === 'toggle-mix-typ') {
+      const m = App.getMix();
+      const list = a === 'toggle-mix-fach' ? m.ohne : m.typen;
+      const i = list.indexOf(el.dataset.value);
+      if (i >= 0) list.splice(i, 1); else list.push(el.dataset.value);
+      App.setMix(m);
+      viewMix();
     } else if (a === 'theme') {
       setTheme(el.dataset.value);
       viewSettings();
@@ -395,11 +511,12 @@
     const v = view || 'home';
     document.body.dataset.view = v;
     document.querySelectorAll('#tabbar a').forEach((a) => {
-      const on = a.dataset.tab === v || (a.dataset.tab === 'home' && v === 'fach');
+      const on = a.dataset.tab === v || (a.dataset.tab === 'home' && (v === 'fach' || v === 'mix'));
       a.classList.toggle('on', on);
       if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
     if (view === 'fach') viewDeck(arg);
+    else if (view === 'mix') viewMix();
     else if (view === 'lernen') Learn.start(arg, 'sr');
     else if (view === 'klausur') Learn.start(arg, 'klausur');
     else if (view === 'statistik') Stats.view($app);

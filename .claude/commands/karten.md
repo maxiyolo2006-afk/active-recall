@@ -33,13 +33,14 @@ Erzeuge Karteikarten für das Fach **$ARGUMENTS** und halte dich strikt an die R
 
 6. **Karten schreiben** (Regeln aus `CLAUDE.md`, Abschnitt „Wie gute Karten aussehen“):
    - atomar, Fragen zum Erklären, Rechenaufgaben mit Lösungsweg, kurze Antworten, Quelle mit Seite/Folie, Sprache der Unterlagen
+   - jede Rechenaufgabe (`typ: "rechnung"`) bekommt ein Feld `formel` mit den allgemeinen Formeln ohne Zahlen und ohne Ergebnis
    - IDs mit `python tools/karten.py naechste-id <kürzel> <thema>` holen und danach fortlaufend weiterzählen
    - Karten **nur ans Ende** von `karten` anhängen. Bestehende Karten nicht anfassen.
    - Rechenergebnisse selbst nachrechnen (z. B. mit `python -c`).
 
 7. **Prüfen:** `python tools/karten.py pruefen --gegen-snapshot`
    - Fehler → nur die **neuen** Karten korrigieren und erneut prüfen, bis es durchläuft.
-   - Warnungen (Ja/Nein-Frage, offenes `$`) ansehen und, wenn berechtigt, die neue Karte verbessern.
+   - Warnungen (Ja/Nein-Frage, offenes `$`, Rechenkarte ohne `formel`) ansehen und, wenn berechtigt, die neue Karte verbessern.
 
 8. **Als verarbeitet eintragen:** `python tools/karten.py erledigt <kürzel> <datei1> <datei2> …`
    (nur Dateien, die wirklich vollständig verarbeitet wurden)

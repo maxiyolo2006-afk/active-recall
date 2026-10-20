@@ -42,6 +42,7 @@ Karteikarten in `decks/<fach>.json`. Der Nutzer lernt sie in der App. Der Lernfo
 | `kapitel` | So wie in den Unterlagen benannt, mit Nummer, z. B. `"3.1 Zug, Druck und Abscherung"`. Innerhalb eines Fachs einheitlich schreiben (wird zum Filter) |
 | `quelle` | **Immer.** `"<Dateiname>, S. <n>"` bzw. `"Folie <n>"`, bei Übungen zusätzlich `"Aufgabe <n>"`. Der Dateiname muss am Anfang stehen (wird für `verarbeitet.json` ausgewertet) |
 | `tags` | 1–4 kurze Schlagwörter, kleingeschrieben, ohne Leerzeichen (`flaechenpressung`, `niet`) |
+| `formel` | **Pflicht bei `typ: "rechnung"`**, sonst weglassen. Formelhilfe, die die App hinter dem Kasten „Formel anzeigen“ zeigt: nur die **allgemeinen** Formeln/Ansätze, die man für die Aufgabe braucht – **keine Zahlenwerte, keine Zwischen- oder Endergebnisse**. 1–3 Zeilen, gleiche LaTeX-Regeln wie `antwort`, `$$…$$` vermeiden. Steht direkt nach `antwort`. Darf bei bestehenden Rechenkarten nachgetragen werden (einzige erlaubte Änderung an alten Karten) |
 
 `decks/index.json` nie von Hand bearbeiten – erzeugt `python tools/karten.py pruefen`.
 
@@ -85,7 +86,7 @@ Die App ist über GitHub Pages veröffentlicht; ein Push auf `main` aktualisiert
 ## Code der App
 
 - `index.html`, `css/style.css`, `js/*.js` (klassische Skripte, keine ES-Module, kein Build), `sw.js`, `manifest.json`
-- `js/fsrs.js` FSRS-5-Scheduler · `js/db.js` IndexedDB · `js/learn.js` Lernsitzung · `js/stats.js` Statistik · `js/app.js` Rest
+- `js/fsrs.js` FSRS-5-Scheduler · `js/db.js` IndexedDB · `js/learn.js` Lernsitzung · `js/ink.js` Zeichenfläche (Apple Pencil) · `js/stats.js` Statistik · `js/app.js` Rest
 - KaTeX liegt lokal in `vendor/katex/` (offline). Keine CDNs einbauen.
 - Neue Dateien, die offline verfügbar sein sollen, in `SHELL` in `sw.js` eintragen. Nach Änderungen an `sw.js` `CACHE` hochzählen.
 - `materialien/` wird nicht veröffentlicht (`.gitignore`), außer `verarbeitet.json`.
